@@ -399,3 +399,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# 실행 파일들 무시
+*.exe
+*.dll
+
+# 중간 임시 파일들 (MinGW, Visual Studio)
+*.o
+*.obj
+*.pdb
+*.ilk
+*.idb
