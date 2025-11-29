@@ -1,13 +1,14 @@
+//1-3 ë§¤ê°œë³€ìˆ˜ì˜ ë””í´íŠ¸ ê°’
 #include <iostream>
 
 int FuncOne(int num = 7){
     return num + 1;
 }
 
-//1-3 ¸Å°³º¯¼öÀÇ µğÆúÆ® °ª
  int main(void) {
      
-     FuncOne();
+     std::cout << FuncOne() << std::endl;
+
 
      return 0;
  }
