@@ -123,12 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Adder.cpp" />
-    <ClCompile Include="Cpt1_5_namespace.cpp" />
     <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Adder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
