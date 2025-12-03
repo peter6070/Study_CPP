@@ -21,11 +21,7 @@ struct client {
 };
 
 //함수 선언
-//메뉴출력
-void printMenu();
-
-//계좌개설
-//int AccountOpening(int num);
+void PrintMenu();
 
 
 int main(void) {
@@ -37,12 +33,13 @@ int main(void) {
 	bool isExit = true; //프로그램 종료 상태
 
 
-	int depositAmountID = 0; //입금 계좌 ID
-	int depositAmount = 0; //추가 입금액
+	int searchID = 0; //입금 계좌 ID
+	int changeAmount = 0; //추가 입금액
+
 
 	while (isExit) {
 		selectNum = 0;
-		printMenu();
+		PrintMenu();
 		cin >> selectNum;
 		switch (selectNum)
 		{
@@ -59,21 +56,38 @@ int main(void) {
 		case 2:
 			cout << "[Deposit]" << endl;
 			cout << "Account ID: ";
-			cin >> depositAmountID;
-			for (int i = 0; i <= index; i++) { //id 찾기
-				if (depositAmountID == Client[i].id) {
+			cin >> searchID;
+			bool isIDFound = false;
+			for (int i = 0; i < index; i++) { //id 찾기
+				if (searchID == Client[i].id) {
+					isIDFound = true;
 					cout << "Deposit amount: ";
-					cin >> depositAmount;
-					Client[i].balance += depositAmount;
+					cin >> changeAmount;
+					Client[i].balance += changeAmount;
 					cout << "Deposit Complete" << endl;
 					break;
 				}
-				/*else {
-					cout << "ID not found" << endl;
-				}*/
 			}
+			if (!isIDFound)
+				cout << "ID Not Found" << endl;
 			break;
 		case 3:
+			cout << "[WithDrawal]" << endl;
+			cout << "Account ID: ";
+			cin >> searchID;
+			bool isIDFound = false;
+			for (int i = 0; i < index; i++) { //id 찾기
+				if (searchID == Client[i].id) {
+					isIDFound = true;
+					cout << "Withdrawal amount: ";
+					cin >> changeAmount;
+					Client[i].balance -= changeAmount;
+					cout << "Withdrawal Complete" << endl;
+					break;
+				}
+			}
+			if (!isIDFound)
+				cout << "ID Not Found" << endl;
 			break;
 		case 4:
 			for (int i = 0; i < index; i++) {
@@ -99,7 +113,7 @@ int main(void) {
 //함수 정의
 
 //메뉴 출력
-void printMenu() {
+void PrintMenu() {
 	cout << "----Menu----" << endl;
 	cout << "1. Account opening" << endl;
 	cout << "2. Deposit" << endl;
@@ -108,5 +122,3 @@ void printMenu() {
 	cout << "5. Exit program" << endl;
 	cout << "Select Number: ";
 }
-
-//계좌개설
