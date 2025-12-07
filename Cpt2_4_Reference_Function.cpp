@@ -21,11 +21,15 @@ using namespace std;
 
 //-----------------------------------------------------------------
 
-void SwapPointer(int *ptr1, int *ptr2) {
-    int temp = *ptr1;
-    *ptr1 = *ptr2;
-    *ptr2 = temp;
-}
+//void SwapPointer(int *ptr1, int *ptr2) {
+//    int temp = *ptr1;
+//    *ptr1 = *ptr2;
+//    *ptr2 = temp;
+//}
+
+//-----------------------------------------------------------------
+
+
 
  int main(void) {
      /*int val1 = 10;
@@ -52,17 +56,21 @@ void SwapPointer(int *ptr1, int *ptr2) {
 
      //-----------------------------------------------------------------
 
-     //문제3.포인터가 가리키는 대상 바꾸기
-     int num1 = 5;
-     int* ptr1 = &num1;
-     int num2 = 10;
-     int* ptr2 = &num2;
+     ////문제3.포인터가 가리키는 대상 바꾸기
+     //int num1 = 5;
+     //int* ptr1 = &num1;
+     //int num2 = 10;
+     //int* ptr2 = &num2;
 
-     cout << "Before Swap: " << num1 << ' ' << num2 << endl;
+     //cout << "Before Swap: " << num1 << ' ' << num2 << endl;
 
-     SwapPointer(ptr1, ptr2);
+     //SwapPointer(ptr1, ptr2);
 
-     cout << "After Swap: " << num1 << ' ' << num2 << endl;
+     //cout << "After Swap: " << num1 << ' ' << num2 << endl;
+
+     //-----------------------------------------------------------------
+
+
 
      return 0;
  }
