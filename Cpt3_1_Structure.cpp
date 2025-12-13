@@ -50,44 +50,52 @@ using namespace std;
 //-----------------------------------------------------------------
 
 //구조체 선언
-//struct Car {
-//	char gamerID[ID_LEN];
-//	int fuelGauge;
-//	int curSpeed;
-//
-//	//함수 선언(구조체 안에 선언)
-//	//차량 상태 출력
-//	void ShowCarState() {
-//		cout << "Owner ID: " << gamerID << endl;
-//		cout << "Fuel Enough: " << fuelGauge << "&" << endl;
-//		cout << "Current Speed: " << curSpeed << "km/s" << endl<<endl;
-//	}
-//
-//	//엑셀
-//	void Accel() {
-//		if (fuelGauge <= 0)
-//			return;
-//		else
-//			fuelGauge -= FUEL_STEP;
-//
-//		if (curSpeed + ACC_STEP >= MAX_SPD) {
-//			curSpeed = MAX_SPD;
-//			return;
-//		}
-//
-//		curSpeed += ACC_STEP;
-//	}
-//
-//	//브레이크
-//	void Break() {
-//		if (curSpeed < BRK_STEP) {
-//			curSpeed = 0;
-//			return;
-//		}
-//
-//		curSpeed -= BRK_STEP;
-//	}
-//};
+struct Car {
+	//상수값을 열거형으로 선언(구조체에서만 필요한 상수들이기 때문)
+	enum {
+		ID_LEN = 20,
+		MAX_SPD = 200,
+		FUEL_STEP = 2,
+		ACC_STEP = 10,
+		BRK_STEP = 10
+	};
+	char gamerID[ID_LEN];
+	int fuelGauge;
+	int curSpeed;
+
+	//함수 선언(구조체 안에 선언)
+	//차량 상태 출력
+	void ShowCarState() {
+		cout << "Owner ID: " << gamerID << endl;
+		cout << "Fuel Enough: " << fuelGauge << "&" << endl;
+		cout << "Current Speed: " << curSpeed << "km/s" << endl << endl;
+	}
+
+	//엑셀
+	void Accel() {
+		if (fuelGauge <= 0)
+			return;
+		else
+			fuelGauge -= FUEL_STEP;
+
+		if (curSpeed + ACC_STEP >= MAX_SPD) {
+			curSpeed = MAX_SPD;
+			return;
+		}
+
+		curSpeed += ACC_STEP;
+	}
+
+	//브레이크
+	void Break() {
+		if (curSpeed < BRK_STEP) {
+			curSpeed = 0;
+			return;
+		}
+
+		curSpeed -= BRK_STEP;
+	}
+};
 
 //-----------------------------------------------------------------
 
@@ -129,8 +137,8 @@ int main(void) {
 	Accel(initialZ);
 	Break(initialZ);
 	ShowCarState(initialZ);*/
-//-----------------------------------------------------------------
-	/*Car initialD = {"initialD",100,0 };
+	//-----------------------------------------------------------------
+	Car initialD = {"initialD",100,0 };
 	initialD.Accel();
 	initialD.Accel();
 	initialD.ShowCarState();
@@ -143,22 +151,23 @@ int main(void) {
 	initialZ.Accel();
 	initialZ.Accel();
 	initialZ.Break();
-	initialZ.ShowCarState();*/
+	initialZ.ShowCarState();
 	//-----------------------------------------------------------------
-	
+
 	//문제3-1.구조체 내 함수정의
-	Point pos1 = { 12,4 };
-	Point pos2 = { 20,30 };
+	//Point pos1 = { 12,4 };
+	//Point pos2 = { 20,30 };
 
-	pos1.MovePos(-7, 10);
-	pos1.ShowPosition(); //[5,14]출력
+	//pos1.MovePos(-7, 10);
+	//pos1.ShowPosition(); //[5,14]출력
 
-	pos1.AddPoint(pos2);
-	pos1.ShowPosition(); //[25,44]출력
+	//pos1.AddPoint(pos2);
+	//pos1.ShowPosition(); //[25,44]출력
 
 	//-----------------------------------------------------------------
 
-	//구조체 안에 enum 상수 선언
+
+
 
 	return 0;
 }
