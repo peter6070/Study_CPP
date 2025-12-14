@@ -13,11 +13,13 @@ namespace CAR_CONST {
 }
 
 class Car {
+//이후에 선언되는 변수 및 함수는 모두 private
 private:
     char gamerID[CAR_CONST::ID_LEN];
     int fuelGauge;
     int curSpeed;
 
+//이후에 선언되는 변수 및 함수는 모두 public
 public:
     void InitMembers(const char * ID, int fuel);
     void ShowCarState();
