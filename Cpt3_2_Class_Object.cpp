@@ -1,64 +1,70 @@
-#include <iostream>
-#include <cstring>
-using namespace std;
-
-namespace CAR_CONST {
-    enum {
-        ID_LEN=20,
-        MAX_SPD=200,
-        FUEL_STEP=2,
-        ACC_STEP=10,
-        BRK_STEP=10
-    };
-}
-
-class Car {
-//이후에 선언되는 변수 및 함수는 모두 private
-private:
-    char gamerID[CAR_CONST::ID_LEN];
-    int fuelGauge;
-    int curSpeed;
-
-//이후에 선언되는 변수 및 함수는 모두 public
-public:
-    void InitMembers(const char * ID, int fuel);
-    void ShowCarState();
-    void Accel();
-    void Break();
-};
-
-void Car::InitMembers(const char * ID, int fuel) {
-    strcpy_s(gamerID, CAR_CONST::ID_LEN, ID);
-    fuelGauge = fuel;
-    curSpeed = 0;
-}
-
-void Car::ShowCarState() {
-    cout << "Owner ID: " << gamerID << endl;
-    cout << "Fuel Enough: " << fuelGauge <<"%" << endl;
-    cout << "Current Speed: " << curSpeed << "km/s" << endl << endl;
-}
-
-void Car::Accel() {
-    if (fuelGauge <= 0)
-        return;
-    else
-        fuelGauge -= CAR_CONST::FUEL_STEP;
-
-    if ((curSpeed + CAR_CONST::ACC_STEP) >= CAR_CONST::MAX_SPD) {
-        curSpeed = CAR_CONST::MAX_SPD;
-        return;
-    }
-    curSpeed += CAR_CONST::ACC_STEP;
-}
-
-void Car::Break() {
-    if (curSpeed < CAR_CONST::BRK_STEP) {
-        curSpeed = 0;
-        return;
-    }
-    curSpeed -= CAR_CONST::BRK_STEP;
-}
+//파일 분할
+#include "Car.h"
+//#include <iostream>
+//#include <cstring>
+//using namespace std;
+//
+//namespace CAR_CONST {
+//    enum {
+//        ID_LEN=20,
+//        MAX_SPD=200,
+//        FUEL_STEP=2,
+//        ACC_STEP=10,
+//        BRK_STEP=10
+//    };
+//}
+//
+////클래스의 선언
+//class Car {
+////이후에 선언되는 변수 및 함수는 모두 private
+//private:
+//    //멤버변수
+//    char gamerID[CAR_CONST::ID_LEN];
+//    int fuelGauge;
+//    int curSpeed;
+//
+////이후에 선언되는 변수 및 함수는 모두 public
+//public:
+//    //멤버함수
+//    void InitMembers(const char * ID, int fuel);
+//    void ShowCarState();
+//    void Accel();
+//    void Break();
+//};
+//
+////클래스의 정의
+//void Car::InitMembers(const char * ID, int fuel) {
+//    strcpy_s(gamerID, CAR_CONST::ID_LEN, ID);
+//    fuelGauge = fuel;
+//    curSpeed = 0;
+//}
+//
+//void Car::ShowCarState() {
+//    cout << "Owner ID: " << gamerID << endl;
+//    cout << "Fuel Enough: " << fuelGauge <<"%" << endl;
+//    cout << "Current Speed: " << curSpeed << "km/s" << endl << endl;
+//}
+//
+//void Car::Accel() {
+//    if (fuelGauge <= 0)
+//        return;
+//    else
+//        fuelGauge -= CAR_CONST::FUEL_STEP;
+//
+//    if ((curSpeed + CAR_CONST::ACC_STEP) >= CAR_CONST::MAX_SPD) {
+//        curSpeed = CAR_CONST::MAX_SPD;
+//        return;
+//    }
+//    curSpeed += CAR_CONST::ACC_STEP;
+//}
+//
+//void Car::Break() {
+//    if (curSpeed < CAR_CONST::BRK_STEP) {
+//        curSpeed = 0;
+//        return;
+//    }
+//    curSpeed -= CAR_CONST::BRK_STEP;
+//}
 
  int main(void) {
      Car run111;
