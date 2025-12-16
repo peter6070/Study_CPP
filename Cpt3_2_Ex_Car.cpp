@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "Car.h" //CAR_CONST에 선언된 상수 사용을 위해 헤더파일 포함
+#include "Cpt3_2_Ex_Car.h" //CAR_CONST에 선언된 상수 사용을 위해 헤더파일 포함
 using namespace std;
 
 //inline 키워드를 통해 헤더파일에 함수 정의

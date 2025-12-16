@@ -1,8 +1,11 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+#include "Cpt3_2_Q1_Calculator.h"
+
 //파일 분할
-#include "Car.h"
-//#include <iostream>
-//#include <cstring>
-//using namespace std;
+//#include "Cpt3_2_Ex_Car.h"
 //
 //namespace CAR_CONST {
 //    enum {
@@ -67,14 +70,24 @@
 //}
 
  int main(void) {
-     Car run111;
+     /*Car run111;
      run111.InitMembers("run111", 100);
      run111.Accel();
      run111.Accel();
      run111.Accel();
      run111.ShowCarState();
      run111.Break();
-     run111.ShowCarState();
+     run111.ShowCarState();*/
+
+     //문제 3-2-1. 계산기 클래스(Calcuator)
+     Calculator cal;
+     cal.Init();
+     cout << "3.2 + 2.4 = " << cal.Add(3.2, 2.4) << endl;
+     cout << "3.5 / 1.7 = " << cal.Div(3.5, 1.7) << endl;
+     cout << "2.2 - 1.5 = " << cal.Min(2.2,1.5) << endl;
+     cout << "4.9 / 1.2 = " << cal.Div(4.9,1.2) << endl;
+     cal.ShowOpCount();
+
  
      return 0;
  }

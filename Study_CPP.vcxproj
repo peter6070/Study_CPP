@@ -123,12 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Cpt3_2_Ex_Car.cpp" />
     <ClCompile Include="Cpt3_2_Class_Object.cpp" />
+    <ClCompile Include="Cpt3_2_Q1_Calculator.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h" />
+    <ClInclude Include="Cpt3_2_Ex_Car.h" />
+    <ClInclude Include="Cpt3_2_Q1_Calculator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

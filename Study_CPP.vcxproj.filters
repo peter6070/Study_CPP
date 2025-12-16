@@ -21,12 +21,18 @@
     <ClCompile Include="Cpt3_2_Class_Object.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
+    <ClCompile Include="Cpt3_2_Ex_Car.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Cpt3_2_Q1_Calculator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h">
+    <ClInclude Include="Cpt3_2_Ex_Car.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cpt3_2_Q1_Calculator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
