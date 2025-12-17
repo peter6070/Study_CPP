@@ -37,7 +37,11 @@ public:
 		myMoney = money;
 		numOfApples = 0;
 	}
+	//참조자를 사용하여 원본(판매자)의 사과 개수 및 판매금액에 영향
+	//참조자를 안쓰면 원본의 복사본에서 정보 전달이 발생하기 때문에 원본은 값이 그대로, 복사본은 함수 끝나면 사라짐
 	void BuyApples(FruitSeller &seller, int money) {
+		//메시지 패싱 방법: "돈 줄 테니 사과 주셈"이라고 메시지만 보냄
+		//돈 주면 준만큼 맞춰서 사과 개수 반환해줌
 		numOfApples += seller.SaleApples(money);
 		myMoney -= money;
 	}
