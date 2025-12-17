@@ -69,6 +69,23 @@ using namespace std;
 //    curSpeed -= CAR_CONST::BRK_STEP;
 //}
 
+class Printer {
+private:
+    string str;
+public:
+    void SetString(string str);
+    void ShowString();
+};
+
+void Printer::SetString(string str) {
+    Printer::str = str;
+}
+
+void Printer::ShowString() {
+    cout << str << endl;
+}
+
+
  int main(void) {
      /*Car run111;
      run111.InitMembers("run111", 100);
@@ -79,15 +96,24 @@ using namespace std;
      run111.Break();
      run111.ShowCarState();*/
 
-     //문제 3-2-1. 계산기 클래스(Calcuator)
-     Calculator cal;
+     //문제 3-2 1. 계산기 클래스(Calcuator)
+     /*Calculator cal;
      cal.Init();
      cout << "3.2 + 2.4 = " << cal.Add(3.2, 2.4) << endl;
      cout << "3.5 / 1.7 = " << cal.Div(3.5, 1.7) << endl;
      cout << "2.2 - 1.5 = " << cal.Min(2.2,1.5) << endl;
      cout << "4.9 / 1.2 = " << cal.Div(4.9,1.2) << endl;
-     cal.ShowOpCount();
+     cal.ShowOpCount();*/
+     
+     //--------------------------------------------------------
+     //문제 3-2 2. Printer 클래스
+     //기능: 문자열 저장, 출력
+     Printer pnt;
+     pnt.SetString("Hello World!");
+     pnt.ShowString();
 
- 
+     pnt.SetString("I love Project RX~");
+     pnt.ShowString();
+
      return 0;
  }
