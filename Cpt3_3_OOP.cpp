@@ -1,10 +1,64 @@
- #include <iostream>
+#include <iostream>
 using namespace std;
 
+//객체지향 프로그래밍의 과일가게 비유
 
- int main(void) {
-     
- 
- 
-     return 0;
- }
+//과일장수
+class FruitSeller {
+private:
+	int APPLE_PRICE; //대문자인 이유는 사과의 판매가격은 일정하다고 가정했기 때문(const 상수 정의할 때 이름 짓는 규칙)
+	int numOfApples;
+	int myMoney;
+
+public:
+	void InitMember(int price, int num, int money) {
+		APPLE_PRICE = price;
+		numOfApples = num;
+		myMoney = money;
+	}
+	int SaleApples(int money) {
+		int num = money / APPLE_PRICE; //num 변수에 금액 나누기 사과 가격의 결과값을 담음(금액으로 살수있는 최대 개수의 사과가 담김)
+		numOfApples -= num; //현재 사과 재고에서 판 재고만큼 차감
+		myMoney += money; //수익 증가
+		return num; //판매한 사과 전달
+	}
+	void ShowSalesResult() {
+		cout << "Remain apples: " << numOfApples << endl;
+		cout << "Revenue: " << myMoney << endl<<endl;
+	}
+};
+
+class FruitBuyer {
+	//클래스는 아무런 선언이 없으면 자동으로 private으로 선언됨(구조체는 public)
+	int myMoney; //소유한 금액
+	int numOfApples; //소유한 사과 수
+public:
+	void InitMember(int money) {
+		myMoney = money;
+		numOfApples = 0;
+	}
+	void BuyApples(FruitSeller &seller, int money) {
+		numOfApples += seller.SaleApples(money);
+		myMoney -= money;
+	}
+	void ShowBuyResult() {
+		cout << "Revenue: " << myMoney << endl;
+		cout << "Remain apples: " << numOfApples << endl<<endl;
+	}
+};
+
+int main(void) {
+	FruitSeller seller;
+	seller.InitMember(1000, 20, 0);
+	
+	FruitBuyer buyer;
+	buyer.InitMember(5000);
+	buyer.BuyApples(seller, 2000); //과일 구매
+
+	cout << "FruitSeller state" << endl;
+	seller.ShowSalesResult();
+	cout << "FruitBuyer state" << endl;
+	buyer.ShowBuyResult();
+
+	return 0;
+}
