@@ -123,8 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cpt3_3_OOP.cpp" />
+    <ClCompile Include="Cpt4_1_Information_Hiding.cpp" />
+    <ClCompile Include="Cpt4_1_Point.cpp" />
+    <ClCompile Include="Cpt4_1_Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cpt4_1_Point.h" />
+    <ClInclude Include="Cpt4_1_Rectangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
