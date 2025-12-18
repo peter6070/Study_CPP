@@ -35,7 +35,7 @@ int main(void) {
 	//----------------------------------------------------
 
 	Point pos1;
-	if (!pos1.InitMembers(-2, 4))
+	if (!pos1.InitMembers(-2, 4))//x가 0보다 작으므로 오류
 		cout << "Initialization failed" << endl;
 	if(!pos1.InitMembers(2,4))
 		cout << "Initialization failed" << endl;
@@ -45,10 +45,10 @@ int main(void) {
 		cout << "Initialization failed" << endl;
 
 	Rectangle rec;
-	if(!rec.InitMember(pos2, pos1))
+	if(!rec.InitMember(pos2, pos1)) //pos1의 좌푯값이 pos2보다 크므로 오류
 		cout << "Rectangle initialization failed" << endl;
 
-	if (!rec.InitMember(pos1, pos2))
+	if (!rec.InitMember(pos1, pos2)) //pos1의 좌푯값이 pos2보다 작으므로 정상출력
 		cout << "Rectangle initialization failed" << endl;
 	
 	rec.ShowRecInfo();
