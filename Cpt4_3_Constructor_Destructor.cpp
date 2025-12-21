@@ -27,6 +27,16 @@ using namespace std;
 //	}
 //};
 
+//멤버변수 이니셜라이저 초기화
+class SoSimple {
+	int num1;
+public:
+	SoSimple(int n1) : num1(n1) //변수 num1을 매개변수 n1으로 초기화
+	{
+
+	}
+};
+
 
 //int main(void) {
 //	/*SimpleClass sc1;
