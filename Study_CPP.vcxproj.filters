@@ -27,9 +27,6 @@
     <ClCompile Include="Cpt4_1_Rectangle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt4_1_Information_Hiding.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cpt4_1_Point.h">
