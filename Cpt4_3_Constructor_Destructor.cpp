@@ -131,10 +131,10 @@ int main(void) {
 
 	//-------------------------------------------------
 	//private 생성자
-	AAA base;
+	AAA base; //스택에 저장
 	base.ShowNum();
 
-	AAA& obj1 = base.CreateInitObj(3);
+	AAA& obj1 = base.CreateInitObj(3); //new 연산자로 동적 할당 했기 때문에 힙에 저장(다쓰고 delete로 지워줘야함)
 	obj1.ShowNum();
 
 	AAA& obj2 = base.CreateInitObj(12);
