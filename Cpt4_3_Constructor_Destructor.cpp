@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 //class SimpleClass {
@@ -82,18 +83,40 @@ using namespace std;
 //};
 
 //--------------------------------------------------------
-//private 생성자
-class AAA {
-	int num;
+////private 생성자
+//class AAA {
+//	int num;
+//public:
+//	AAA() : num(0) {}
+//	AAA& CreateInitObj(int n) const {
+//		AAA* ptr = new AAA(n); //private 생성자를 이용해 AAA 객체를 생성 및 반환
+//		return *ptr;
+//	}
+//	void ShowNum() const { cout << num << endl; }
+//private: //private 생성자 선언
+//	AAA(int n) : num(n) {}
+//};
+
+//--------------------------------------------------------
+//소멸자
+class Person {
+	char* name;
+	int age;
 public:
-	AAA() : num(0) {}
-	AAA& CreateInitObj(int n) const {
-		AAA* ptr = new AAA(n); //private 생성자를 이용해 AAA 객체를 생성 및 반환
-		return *ptr;
+	Person(const char* myname, int myage) {
+		int len = strlen(myname) + 1;
+		name = new char[len];
+		strcpy_s(name, len, myname);
+		age = myage;
 	}
-	void ShowNum() const { cout << num << endl; }
-private: //private 생성자 선언
-	AAA(int n) : num(n) {}
+	void ShowPersonInfo() const {
+		cout << "name: " << name << endl;
+		cout << "age: " << age << endl;
+	}
+	~Person() {
+		delete[]name;
+		cout << "called destructor!" << endl;
+	}
 };
 
 int main(void) {
@@ -130,18 +153,25 @@ int main(void) {
 	////SSS() : num(0) {} 를 SSS 클래스에 추가함으로써 생성 가능
 
 	//-------------------------------------------------
-	//private 생성자
-	AAA base; //스택에 저장
-	base.ShowNum();
+	////private 생성자
+	//AAA base; //스택에 저장
+	//base.ShowNum();
 
-	AAA& obj1 = base.CreateInitObj(3); //new 연산자로 동적 할당 했기 때문에 힙에 저장(다쓰고 delete로 지워줘야함)
-	obj1.ShowNum();
+	//AAA& obj1 = base.CreateInitObj(3); //new 연산자로 동적 할당 했기 때문에 힙에 저장(다쓰고 delete로 지워줘야함)
+	//obj1.ShowNum();
 
-	AAA& obj2 = base.CreateInitObj(12);
-	obj2.ShowNum();
+	//AAA& obj2 = base.CreateInitObj(12);
+	//obj2.ShowNum();
 
-	delete& obj1;
-	delete& obj2;
+	//delete& obj1;
+	//delete& obj2;
+	//-------------------------------------------------
+	//소멸자
+	Person man1("Lee", 29);
+	Person man2("Kim", 41);
+	man1.ShowPersonInfo();
+	man2.ShowPersonInfo();
+
 
 	return 0;
 }
