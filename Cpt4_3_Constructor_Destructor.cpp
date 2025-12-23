@@ -104,7 +104,7 @@ class Person {
 	int age;
 public:
 	Person(const char* myname, int myage) {
-		int len = strlen(myname) + 1;
+		int len = strlen(myname) + 1; //메모리를 문자열 길이만큼 동적 할당(메모리 절약)
 		name = new char[len];
 		strcpy_s(name, len, myname);
 		age = myage;
@@ -113,6 +113,7 @@ public:
 		cout << "name: " << name << endl;
 		cout << "age: " << age << endl;
 	}
+	//소멸자
 	~Person() {
 		delete[]name;
 		cout << "called destructor!" << endl;
