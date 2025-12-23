@@ -98,25 +98,65 @@ using namespace std;
 //};
 
 //--------------------------------------------------------
-//소멸자
-class Person {
-	char* name;
-	int age;
+////소멸자
+//class Person {
+//	char* name;
+//	int age;
+//public:
+//	Person(const char* myname, int myage) {
+//		int len = strlen(myname) + 1; //메모리를 문자열 길이만큼 동적 할당(메모리 절약)
+//		name = new char[len]; //new 연산자로 객체 생성
+//		strcpy_s(name, len, myname);
+//		age = myage;
+//	}
+//	void ShowPersonInfo() const {
+//		cout << "name: " << name << endl;
+//		cout << "age: " << age << endl;
+//	}
+//	//소멸자(객체가 메모리에서 사라지기 전에 자동 호출됨)
+//	~Person() {
+//		delete[]name; //new로 생성한 객체 제거
+//		cout << "called destructor!" << endl;
+//	}
+//};
+//-------------------------------------------------
+//문제 4-3 1.Ring 클래스에 생성자 정의
+class Point {
+	int xpos, ypos;
 public:
-	Person(const char* myname, int myage) {
-		int len = strlen(myname) + 1; //메모리를 문자열 길이만큼 동적 할당(메모리 절약)
-		name = new char[len];
-		strcpy_s(name, len, myname);
-		age = myage;
+	Point(int x, int y)
+		:xpos(x), ypos(y)
+	{	}
+	void ShowPointInfo() const {
+		cout << "[" << xpos << "," << ypos << "]" << endl;
 	}
-	void ShowPersonInfo() const {
-		cout << "name: " << name << endl;
-		cout << "age: " << age << endl;
+};
+
+class Circle {
+	int radius;
+	Point center;
+public:
+	Circle(int x, int y, int r) 
+		: center(x,y), radius(r)
+	{	}
+	void ShowCircleInfo() const {
+		cout << "radius: " << radius << endl;
+		center.ShowPointInfo();
 	}
-	//소멸자
-	~Person() {
-		delete[]name;
-		cout << "called destructor!" << endl;
+};
+
+class Ring {
+	Circle innerCircle;
+	Circle outterCircle;
+public:
+	Ring(int inX, int inY, int inR, int outX, int outY, int outR) 
+		:innerCircle(inX, inY, inR), outterCircle(outX, outY, outR)
+	{	}
+	void ShowRingInfo() const {
+		cout << "Inner Circle Info.." << endl;
+		innerCircle.ShowCircleInfo();
+		cout << "Outter Circle Info.." << endl;
+		outterCircle.ShowCircleInfo();
 	}
 };
 
@@ -167,12 +207,15 @@ int main(void) {
 	//delete& obj1;
 	//delete& obj2;
 	//-------------------------------------------------
-	//소멸자
-	Person man1("Lee", 29);
-	Person man2("Kim", 41);
-	man1.ShowPersonInfo();
-	man2.ShowPersonInfo();
-
+	////소멸자
+	//Person man1("Lee", 29);
+	//Person man2("Kim", 41);
+	//man1.ShowPersonInfo();
+	//man2.ShowPersonInfo();
+	//-------------------------------------------------
+	//문제 4-3 1.Ring 클래스에 생성자 정의
+	Ring ring(1, 1, 4, 2, 2, 9);
+	ring.ShowRingInfo();
 
 	return 0;
 }
