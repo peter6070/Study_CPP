@@ -120,43 +120,103 @@ using namespace std;
 //	}
 //};
 //-------------------------------------------------
-//문제 4-3 1.Ring 클래스에 생성자 정의
-class Point {
-	int xpos, ypos;
-public:
-	Point(int x, int y)
-		:xpos(x), ypos(y)
-	{	}
-	void ShowPointInfo() const {
-		cout << "[" << xpos << "," << ypos << "]" << endl;
-	}
-};
+////문제 1.Ring 클래스에 생성자 정의
+//class Point {
+//	int xpos, ypos;
+//public:
+//	Point(int x, int y)
+//		:xpos(x), ypos(y)
+//	{	}
+//	void ShowPointInfo() const {
+//		cout << "[" << xpos << "," << ypos << "]" << endl;
+//	}
+//};
+//
+//class Circle {
+//	int radius;
+//	Point center;
+//public:
+//	Circle(int x, int y, int r) 
+//		: center(x,y), radius(r)
+//	{	}
+//	void ShowCircleInfo() const {
+//		cout << "radius: " << radius << endl;
+//		center.ShowPointInfo();
+//	}
+//};
+//
+//class Ring {
+//	Circle innerCircle;
+//	Circle outterCircle;
+//public:
+//	Ring(int inX, int inY, int inR, int outX, int outY, int outR) 
+//		:innerCircle(inX, inY, inR), outterCircle(outX, outY, outR)
+//	{	}
+//	void ShowRingInfo() const {
+//		cout << "Inner Circle Info.." << endl;
+//		innerCircle.ShowCircleInfo();
+//		cout << "Outter Circle Info.." << endl;
+//		outterCircle.ShowCircleInfo();
+//	}
+//};
 
-class Circle {
-	int radius;
-	Point center;
-public:
-	Circle(int x, int y, int r) 
-		: center(x,y), radius(r)
-	{	}
-	void ShowCircleInfo() const {
-		cout << "radius: " << radius << endl;
-		center.ShowPointInfo();
-	}
-};
+namespace COMP_POS {
+	//직급 정보
+	enum COMP_POS {
+		CLERK,
+		SENIOR,
+		ASSIST,
+		MANAGER
+	};
+}
 
-class Ring {
-	Circle innerCircle;
-	Circle outterCircle;
+//문제 2. 명함 NameCard  클래스
+class NameCard {
+	//성명, 회사이름, 전화번호, 직급
+	char* name; //성명
+	char* compName; //회사이름
+	char* phone; //전화번호
+	int position;
+
+	
 public:
-	Ring(int inX, int inY, int inR, int outX, int outY, int outR) 
-		:innerCircle(inX, inY, inR), outterCircle(outX, outY, outR)
-	{	}
-	void ShowRingInfo() const {
-		cout << "Inner Circle Info.." << endl;
-		innerCircle.ShowCircleInfo();
-		cout << "Outter Circle Info.." << endl;
-		outterCircle.ShowCircleInfo();
+	
+	NameCard(const char* myname, const char* mycompName, const char * myphone, int myposition)
+	{
+		int len = strlen(myname) + 1; //문자열 길이만큼 길이 설정
+		name = new char[len]; //name 변수에 myname 길이만큼 동적할당
+		strcpy_s(name, len, myname); //name에 myname 문자열 복사
+
+		len = strlen(mycompName) + 1;
+		compName = new char[len];
+		strcpy_s(compName, len, mycompName);
+
+		len = strlen(myphone) + 1;
+		phone = new char[len];
+		strcpy_s(phone, len, myphone);
+
+		position = myposition;
+	}
+	void ShowNameCardInfo() {
+		cout << "Name: " << name << endl;
+		cout << "Company: " << compName << endl;
+		cout << "Phone: " << phone << endl;
+		cout << "Position: ";
+		switch (position) {
+		case COMP_POS::CLERK: cout << "CLERK" << endl; break;
+		case COMP_POS::SENIOR: cout << "SENIOR" << endl; break;
+		case COMP_POS::ASSIST: cout << "ASSIST" << endl; break;
+		case COMP_POS::MANAGER: cout << "MANAGER" << endl; break;
+		default: cout << "Unknown" << endl; break;
+		}
+		cout<<endl;
+
+	}
+
+	~NameCard() {
+		delete[] name;
+		delete[] compName;
+		delete[] phone;
 	}
 };
 
@@ -213,9 +273,18 @@ int main(void) {
 	//man1.ShowPersonInfo();
 	//man2.ShowPersonInfo();
 	//-------------------------------------------------
-	//문제 4-3 1.Ring 클래스에 생성자 정의
-	Ring ring(1, 1, 4, 2, 2, 9);
-	ring.ShowRingInfo();
+	//문제 1.Ring 클래스에 생성자 정의
+	/*Ring ring(1, 1, 4, 2, 2, 9);
+	ring.ShowRingInfo();*/
+
+	//-------------------------------------------------
+	//문제 2. 명함 NameCard  클래스
+	NameCard manClerk("Lee", "ABCEng", "010-1111-2222", COMP_POS::CLERK);
+	NameCard manSENIOR("Hong", "OrangeEng", "010-3333-4444", COMP_POS::SENIOR);
+	NameCard manAssist("Kim", "SoGoodComp", "010-5555-6666", COMP_POS::ASSIST);
+	manClerk.ShowNameCardInfo();
+	manSENIOR.ShowNameCardInfo();
+	manAssist.ShowNameCardInfo();
 
 	return 0;
 }
