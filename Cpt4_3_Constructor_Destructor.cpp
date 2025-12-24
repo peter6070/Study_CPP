@@ -226,6 +226,7 @@ public:
 
 	}
 
+	//소멸자를 이용해 동적할당했던 객체 제거
 	~NameCard() {
 		delete[] name;
 		delete[] compName;
