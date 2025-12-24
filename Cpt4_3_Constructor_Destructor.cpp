@@ -162,12 +162,22 @@ using namespace std;
 
 namespace COMP_POS {
 	//직급 정보
-	enum COMP_POS {
+	enum {
 		CLERK,
 		SENIOR,
 		ASSIST,
 		MANAGER
 	};
+	//(교재)namespace에서 직급 출력하는 함수
+	void ShowPositionInfo(int pos) {
+		switch (pos) {
+		case COMP_POS::CLERK: cout << "CLERK" << endl; break;
+		case COMP_POS::SENIOR: cout << "SENIOR" << endl; break;
+		case COMP_POS::ASSIST: cout << "ASSIST" << endl; break;
+		case COMP_POS::MANAGER: cout << "MANAGER" << endl; break;
+		default: cout << "Unknown" << endl; break;
+		}
+	}
 }
 
 //문제 2. 명함 NameCard  클래스
@@ -178,14 +188,16 @@ class NameCard {
 	char* phone; //전화번호
 	int position;
 
-	
+
 public:
-	
-	NameCard(const char* myname, const char* mycompName, const char * myphone, int myposition)
+
+	NameCard(const char* myname, const char* mycompName, const char* myphone, int myposition)
 	{
 		int len = strlen(myname) + 1; //문자열 길이만큼 길이 설정
 		name = new char[len]; //name 변수에 myname 길이만큼 동적할당
 		strcpy_s(name, len, myname); //name에 myname 문자열 복사
+
+		//(교재) name = new char[strlen(myname) + 1]; 이런식으로 한번에 선언할수도 있음(strcpy_s 쓰려면 문자열 길이 필요해서 나는 따로 분리함)
 
 		len = strlen(mycompName) + 1;
 		compName = new char[len];
@@ -203,13 +215,14 @@ public:
 		cout << "Phone: " << phone << endl;
 		cout << "Position: ";
 		switch (position) {
-		case COMP_POS::CLERK: cout << "CLERK" << endl; break;
-		case COMP_POS::SENIOR: cout << "SENIOR" << endl; break;
-		case COMP_POS::ASSIST: cout << "ASSIST" << endl; break;
-		case COMP_POS::MANAGER: cout << "MANAGER" << endl; break;
-		default: cout << "Unknown" << endl; break;
+			case COMP_POS::CLERK: cout << "CLERK" << endl; break;
+			case COMP_POS::SENIOR: cout << "SENIOR" << endl; break;
+			case COMP_POS::ASSIST: cout << "ASSIST" << endl; break;
+			case COMP_POS::MANAGER: cout << "MANAGER" << endl; break;
+			default: cout << "Unknown" << endl; break;
 		}
-		cout<<endl;
+		//(교재) cout << "Position: "; COMP_POS::ShowPositionInfo(position); //직급 출력 함수 호출
+		cout << endl;
 
 	}
 
