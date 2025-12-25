@@ -6,12 +6,13 @@ class Person {
 	char* name;
 	int age;
 public:
-	//인자받는 생성자
+	//인자받는 생성자(main함수에서 Person 배열 선언할때 인자를 넣으면 그때 호출됨. 현재는 아래 코드에 인자를 안 넣었으므로 실행 안됨)
 	Person(char* myname, int myage) {
 		int len = strlen(myname) + 1;
 		name = new char[len];
 		strcpy_s(name, len, myname);
 		age = myage;
+		cout << "called Person(char, int)" << endl;
 	}
 	//생성자
 	Person() {
@@ -37,7 +38,7 @@ public:
 };
 
 int main(void) {
-	Person perArr[3]; //person array
+	Person perArr[3]; //여기서 배열의 각 요소에 인자를 넣어서 선언하면 인자받는 생성자가 호출됨
 	char nameStr[100];
 	char* strptr;
 	int age;
