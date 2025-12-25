@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt4_3_Constructor_Destructor.cpp">
+    <ClCompile Include="Cpt4_4_Class_Array_thisPointer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
