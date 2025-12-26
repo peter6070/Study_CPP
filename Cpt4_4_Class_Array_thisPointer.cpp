@@ -38,11 +38,13 @@ public:
 };
 
 int main(void) {
+	/*//객체 배열
 	Person perArr[3]; //여기서 배열의 각 요소에 인자를 넣어서 선언하면 인자받는 생성자가 호출됨
 	char nameStr[100];
 	char* strptr;
 	int age;
 	int len;
+
 
 	//for문을 이용해 배열의 각 객체마다 이름과 나이 정보를 입력받아 객체 초기화
 	for (int i = 0; i < 3; i++) {
@@ -57,7 +59,27 @@ int main(void) {
 	}
 	perArr[0].ShowPersonInfo();
 	perArr[1].ShowPersonInfo();
-	perArr[2].ShowPersonInfo();
+	perArr[2].ShowPersonInfo();*/
+
+	//객체 포인터 배열
+	Person* perArr[3];
+	char nameStr[100];
+	int age;
+
+	for (int i = 0; i < 3; i++) {
+		cout << "Name: ";
+		cin >> nameStr;
+		cout << "Age: ";
+		cin >> age;
+		perArr[i] = new Person(nameStr, age); //인자받는 생성자 호출
+	}
+	perArr[0]->ShowPersonInfo();
+	perArr[1]->ShowPersonInfo();
+	perArr[2]->ShowPersonInfo();
+	delete perArr[0];
+	delete perArr[1];
+	delete perArr[2];
+
 
 	return 0;
 }
