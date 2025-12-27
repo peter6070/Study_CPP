@@ -37,37 +37,53 @@ using namespace std;
 //	}
 //};
 
-//this 포인터
-class ThisClass {
+////this 포인터
+//class ThisClass {
+//	int num;
+//public:
+//	ThisClass(int n) : num(n) {
+//		cout << "num = " << num << ", ";
+//		cout << "address=" << this << endl;
+//	}
+//	void ShowThisClassData() {
+//		cout << num << endl;
+//	}
+//	ThisClass* GetThisPointer() {
+//		return this; //이 문장을 실행하는 객체 포인터 반환. 그래서 호출 시 반환형도 ThisClass * 로 선언
+//	}
+//};
+
+//class TwoNumber {
+//	int num1;
+//	int num2;
+//public:
+//	TwoNumber(int num1, int num2) {
+//		this->num1 = num1; //this->num1,2 = TwoNumber에서 private으로 선언된 멤버변수
+//		this->num2 = num2; // num1,2 = 인자로 받은 매개변수
+//	}
+//	//멤버 이니셜라이저에서는 this포인터 사용불가
+//	// //대신 저장하는 변수는 멤버변수로, 저장되는 값은(소괄호 안의 변수 및 상수) 매개변수로 인식하기 때문에 아래 예시처럼 구성 가능
+//	//TwoNumber(int num1, int num2) : num1(num1), num2(num2) { }
+//
+//	void ShowTwoNumber() {
+//		cout << this->num1 << endl; //멤버변수에 접근함을 명확히 함
+//		cout << this->num2 << endl; //일반적으로는 this 생략
+//	}
+//};
+
+class SelfRef {
 	int num;
 public:
-	ThisClass(int n) : num(n) {
-		cout << "num = " << num << ", ";
-		cout << "address=" << this << endl;
+	SelfRef(int n) : num(n) {
+		cout << "Object Construct" << endl;
 	}
-	void ShowThisClassData() {
+	SelfRef& Adder(int n) {
+		num += n;
+		return *this;
+	}
+	SelfRef& ShowTwoNumber() {
 		cout << num << endl;
-	}
-	ThisClass* GetThisPointer() {
-		return this; //이 문장을 실행하는 객체 포인터 반환. 그래서 호출 시 반환형도 ThisClass * 로 선언
-	}
-};
-
-class TwoNumber {
-	int num1;
-	int num2;
-public:
-	TwoNumber(int num1, int num2) {
-		this->num1 = num1; //this->num1,2 = TwoNumber에서 private으로 선언된 멤버변수
-		this->num2 = num2; // num1,2 = 인자로 받은 매개변수
-	}
-	//멤버 이니셜라이저에서는 this포인터 사용불가
-	// //대신 저장하는 변수는 멤버변수로, 저장되는 값은(소괄호 안의 변수 및 상수) 매개변수로 인식하기 때문에 아래 예시처럼 구성 가능
-	//TwoNumber(int num1, int num2) : num1(num1), num2(num2) { }
-
-	void ShowTwoNumber() {
-		cout << this->num1 << endl; //멤버변수에 접근함을 명확히 함
-		cout << this->num2 << endl; //일반적으로는 this 생략
+		return *this;
 	}
 };
 
@@ -131,8 +147,19 @@ int main(void) {
 	//cout << ptr2 << ", ";
 	//ptr2->ShowThisClassData();
 
-	TwoNumber two(2, 4);
-	two.ShowTwoNumber();
+	/*TwoNumber two(2, 4);
+	two.ShowTwoNumber();*/
+
+	//----------------------------------------------------
+	//Self-Reference
+	SelfRef obj(3);
+	SelfRef& ref = obj.Adder(2);
+
+	obj.ShowTwoNumber();
+	ref.ShowTwoNumber();
+
+	ref.Adder(1).ShowTwoNumber().Adder(2).ShowTwoNumber();
+
 
 	return 0;
 }
