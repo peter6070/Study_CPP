@@ -160,6 +160,5 @@ int main(void) {
 
 	ref.Adder(1).ShowTwoNumber().Adder(2).ShowTwoNumber();
 
-
 	return 0;
 }
