@@ -77,9 +77,9 @@ public:
 	SelfRef(int n) : num(n) {
 		cout << "Object Construct" << endl;
 	}
-	SelfRef& Adder(int n) {
+	SelfRef& Adder(int n) { //반환형 SelfRef&. 객체 자신을 참조할 수 있는 '참조의 정보' 반환
 		num += n;
-		return *this;
+		return *this; //반환내용 *this: 객체 자신을 반환하겠다는 뜻
 	}
 	SelfRef& ShowTwoNumber() {
 		cout << num << endl;
@@ -159,6 +159,7 @@ int main(void) {
 	ref.ShowTwoNumber();
 
 	ref.Adder(1).ShowTwoNumber().Adder(2).ShowTwoNumber();
+	
 
 	return 0;
 }
