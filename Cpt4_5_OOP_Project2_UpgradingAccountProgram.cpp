@@ -35,6 +35,21 @@ public:
 		cusName = new char[len];
 		strcpy_s(cusName, len, nameStr);
 	}
+	const int GetID() {
+		return id;
+	}
+	const char* GetName() {
+		return cusName;
+	}
+	const int GetBalance() {
+		return balance;
+	}
+	const void DepositBalance(int changeAmount) {
+		balance += changeAmount;
+	}
+	const void WithdrawalBalance(int changeAmount) {
+		balance -= changeAmount;
+	}
 	~Account() {
 		delete cusName;
 	}
@@ -66,6 +81,9 @@ int main(void) {
 			break;
 		case 5:
 			cout << "Pragram Exit" << endl;
+			for (int i = 0; i < accNum; i++) {
+				delete accArr[i];
+			}
 			return 0;
 		default:
 			cout << "Illegal selection.." << endl;
@@ -114,11 +132,11 @@ void Deposit() {
 	cout << "Account ID: ";
 	cin >> searchID;
 	for (int i = 0; i < accNum; i++) { //id 찾기
-		if (searchID == accArr[i].id) {
+		if (searchID == accArr[i]->GetID()) {
 			isIDFound = true;
 			cout << "Deposit amount: ";
 			cin >> changeAmount;
-			accArr[i].balance += changeAmount;
+			accArr[i]->DepositBalance(changeAmount);
 			cout << "Deposit Complete" << endl;
 			break;
 		}
@@ -137,11 +155,11 @@ void Withdraw() {
 	cout << "Account ID: ";
 	cin >> searchID;
 	for (int i = 0; i < accNum; i++) { //id 찾기
-		if (searchID == accArr[i].id) {
+		if (searchID == accArr[i]->GetID()) {
 			isIDFound = true;
 			cout << "Withdrawal amount: ";
 			cin >> changeAmount;
-			accArr[i].balance -= changeAmount;
+			accArr[i]->WithdrawalBalance(changeAmount);
 			cout << "Withdrawal Complete" << endl;
 			break;
 		}
@@ -153,8 +171,8 @@ void Withdraw() {
 //모든 고객 계좌 정보 출력
 void ShowAllAccInfo() {
 	for (int i = 0; i < accNum; i++) {
-		cout << "\nAccount ID: " << accArr[i].id << endl;
-		cout << "Name: " << accArr[i].name << endl;
-		cout << "Balance: " << accArr[i].balance << endl << endl;
+		cout << "\nAccount ID: " << accArr[i]->GetID() << endl;
+		cout << "Name: " << accArr[i]->GetName() << endl;
+		cout << "Balance: " << accArr[i]->GetBalance() << endl << endl;
 	}
 }
