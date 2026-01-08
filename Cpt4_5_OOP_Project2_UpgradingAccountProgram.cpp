@@ -25,30 +25,29 @@ void ShowAllAccInfo();
 //Account 클래스
 class Account {
 	int id;
-	char* strptr;
+	char* cusName;
 	int balance;
 public:
 	Account(int myId, char *nameStr, int myBalance) 
 		:id(myId), balance(myBalance)
 	{
 		int len = strlen(nameStr)+1;
-		strptr = new char[len];
-		strcpy_s(strptr, len, nameStr);
+		cusName = new char[len];
+		strcpy_s(cusName, len, nameStr);
 	}
 	~Account() {
-		delete strptr;
+		delete cusName;
 	}
 };
 
-int main(void) {
+Account* accArr[MAX_CLIENT];
 
-	Account* accArr[MAX_CLIENT];
+int main(void) {
 
 	int selectNum = 0; //번호 선택
 
 
 	while (true) {
-		//selectNum = 0;
 		PrintMenu();
 		cin >> selectNum;
 		switch (selectNum)
@@ -101,7 +100,7 @@ void MakeAccount() {
 	cin >> name;
 	cout << "Deposit amount: ";
 	cin >> balance;
-	accArr[accNum] = new Account(id, name);
+	accArr[accNum] = new Account(id, name, balance);
 	accNum++;
 }
 
