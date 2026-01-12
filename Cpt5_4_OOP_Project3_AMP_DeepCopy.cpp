@@ -37,6 +37,7 @@ public:
 		strcpy_s(cusName, len, nameStr);
 	}
 	//복사 생성자
+	//동적 할당을 하는 클래스(char*)는 무조건 복사 생성자를 정의해서 깊은 복사를 해야 함(보험으로 작성한 것, 이 코드 예시에서는 작동 X)
 	Account(const Account& copy) 
 		: id(copy.id), balance(copy.balance) 
 	{
@@ -44,6 +45,7 @@ public:
 		cusName = new char[len];
 		strcpy_s(cusName, len, copy.cusName);
 	}
+
 	const int GetID() {
 		return id;
 	}
@@ -53,13 +55,15 @@ public:
 	const int GetBalance() {
 		return balance;
 	}
-	const void DepositBalance(int changeAmount) {
+	void DepositBalance(int changeAmount) { //void 형에는 const가 의미없음(const: 리턴값이 상수이다)
 		balance += changeAmount;
 	}
-	const int WithdrawalBalance(int changeAmount) {
+	int WithdrawalBalance(int changeAmount) { //잔액 수정해야하므로 const 제거
 		if (balance < changeAmount)
 			return 0;
 		balance -= changeAmount;
+
+		return balance; //리턴 빼먹은거 추가
 	}
 	~Account() {
 		delete[] cusName;
