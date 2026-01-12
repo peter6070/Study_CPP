@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt5_3_CopyConstructor_CallTime.cpp">
+    <ClCompile Include="Cpt5_4_OOP_Project3_AMP_DeepCopy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
