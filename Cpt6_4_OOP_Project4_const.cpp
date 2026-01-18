@@ -44,13 +44,13 @@ public:
 		strcpy_s(cusName, len, copy.cusName);
 	}
 
-	const int GetID() {
+	int GetID() const {
 		return id;
 	}
-	const char* GetName() {
+	char* GetName() const {
 		return cusName;
 	}
-	const int GetBalance() {
+	int GetBalance() const {
 		return balance;
 	}
 	void DepositBalance(int changeAmount) { //void 형에는 const가 의미없음(const: 리턴값이 상수이다)
@@ -66,7 +66,7 @@ public:
 	~Account() {
 		delete[] cusName;
 	}
-	void ShowAccInfo() {
+	void ShowAccInfo() const {
 		cout << "\nAccount ID: " << id << endl;
 		cout << "Name: " << cusName << endl;
 		cout << "Balance: " << balance << endl << endl;
