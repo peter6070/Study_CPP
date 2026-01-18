@@ -32,12 +32,29 @@ using namespace std;
 
 //----------------------------------------------------
 
-class CountryArea {
+//class CountryArea {
+//public:
+//	const static int RUSSIA = 1707540;
+//	const static int CANADA = 7845222;
+//	const static int CHINA = 5982523;
+//	const static int SOUTH_KOREA = 9922;
+//};
+
+//----------------------------------------------------
+
+class Simple {
+	int num1;
+	mutable int num2; //const 함수에 대해 예외를 둠
 public:
-	const static int RUSSIA = 1707540;
-	const static int CANADA = 7845222;
-	const static int CHINA = 5982523;
-	const static int SOUTH_KOREA = 9922;
+	Simple(int n1, int n2) : num1(n1), num2(n2){}
+	void ShowSimpleData() const {
+		cout << num1 << ", " << num2 << endl;
+	}
+	void CpoyToNum2() const {
+		num2 = num1;
+		//const 함수 내에서 값 변경함
+		//num2가 mutable로 선언되었기 때문에 가능
+	}
 };
 
 
@@ -59,11 +76,17 @@ int main(void) {
 	//cout << sim2.simObjCnt << "'s Simple Object" << endl;
 	//----------------------------------------------------
 
-	//상수 접근을 위해 객체를 생성할 필요 없음
-	cout << "Area of RUSSIA: " << CountryArea::RUSSIA << "km" << endl;
-	cout << "Area of CANADA: " << CountryArea::CANADA << "km" << endl;
-	cout << "Area of CHINA: " << CountryArea::CHINA << "km" << endl;
-	cout << "Area of SOUTH_KOREA: " << CountryArea::SOUTH_KOREA << "km" << endl;
+	////상수 접근을 위해 객체를 생성할 필요 없음
+	//cout << "Area of RUSSIA: " << CountryArea::RUSSIA << "km" << endl;
+	//cout << "Area of CANADA: " << CountryArea::CANADA << "km" << endl;
+	//cout << "Area of CHINA: " << CountryArea::CHINA << "km" << endl;
+	//cout << "Area of SOUTH_KOREA: " << CountryArea::SOUTH_KOREA << "km" << endl;
+	//----------------------------------------------------
+
+	Simple sm(1, 2);
+	sm.ShowSimpleData();
+	sm.CpoyToNum2();
+	sm.ShowSimpleData();
 
 	return 0;
 }
