@@ -46,6 +46,24 @@ public:
 	}
 };
 
+class Derived : public Base {
+	int derivNum;
+public:
+	Derived() : derivNum(30) {
+		cout << "Derived():" << endl;
+	}
+	Derived(int n) : derivNum(n) {
+		cout << "Derived(int n)" << endl;
+	}
+	Derived(int n1, int n2) : Base(n1), derivNum(n2) {
+		cout << "Derived(int n1, int n2)" << endl;
+	}
+	void ShowDerivData() {
+		ShowBaseData();
+		cout << derivNum << endl;
+	}
+};
+
 
 int main(void) {
 	/*UnivStudent ustd1("Lee", 22, "Computer eng.");
@@ -56,6 +74,17 @@ int main(void) {
 
 	//-----------------------------------------------------
 
+	cout << "case1......." << endl;
+	Derived dr1;
+	dr1.ShowDerivData();
+	cout << "------------------" << endl;
+	cout << "case2......." << endl;
+	Derived dr2(12);
+	dr2.ShowDerivData();
+	cout << "------------------" << endl;
+	cout << "case3........" << endl;
+	Derived dr3(23, 24);
+	dr3.ShowDerivData();
 
 	return 0;
 }
