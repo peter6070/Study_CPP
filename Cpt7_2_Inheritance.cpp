@@ -1,86 +1,109 @@
 #include <iostream>
 using namespace std;
 
-//class Person {
-//	int age;
-//	char name[50];
-//public:
-//	Person(int myage, const char* myname) : age(myage) {
-//		strcpy_s(name, 50, myname);
-//	}
-//	void WharYourName() const {
-//		cout << "My name is " << name << endl;
-//	}
-//	void HowOldAreYou() const {
-//		cout << "I'm " << age << " years old" << endl;
-//	}
-//};
-//
-//class UnivStudent : public Person {	//Person 클래스의 상속
-//	char major[50];
-//public:
-//	UnivStudent(const char* myname, int myage, const char* mymajor) 
-//		: Person(myage, myname) {
-//		strcpy_s(major, 50, mymajor);
-//	}
-//	void WhoAreYou() const {
-//		WharYourName(); //상속 함수
-//		HowOldAreYou(); //상속 함수
-//		cout << "My major is " << major << endl << endl;
-//	}
-//};
+class Person {
+	/*int age;
+	char name[50];*/
+	char* name;
+
+public:
+	/*Person(int myage, const char* myname) : age(myage) {
+		strcpy_s(name, 50, myname);
+	}*/
+	Person(const char* myname) {
+		int len = strlen(myname)+1;
+		name = new char[len];
+		strcpy_s(name, len, myname);
+	}
+	~Person() {
+		delete []name;
+	}
+	void WharYourName() const {
+		cout << "My name is " << name << endl;
+	}
+	/*void HowOldAreYou() const {
+		cout << "I'm " << age << " years old" << endl;
+	}*/
+};
+
+class UnivStudent : public Person {	//Person 클래스의 상속
+	//char major[50];
+	char* major;
+public:
+	/*UnivStudent(const char* myname, int myage, const char* mymajor) 
+		: Person(myage, myname) {
+		strcpy_s(major, 50, mymajor);
+	}*/
+	UnivStudent(const char* myname, const char* mymajor) : Person(myname) {
+		int len = strlen(mymajor) + 1;
+		major = new char[len];
+		strcpy_s(major, len, mymajor);
+	}
+	~UnivStudent() {
+		delete[] major;
+	}
+	void WhoAreYou() const {
+		WharYourName(); //상속 함수
+		//HowOldAreYou(); //상속 함수
+		cout << "My major is " << major << endl << endl;
+	}
+};
 
 //-----------------------------------------------------
 
-class Base {
-	int baseNum;
-public:
-	//유도 클래스 생성 과정
-	/*Base() : baseNum(20) {
-		cout << "Base()" << endl;
-	}
-	Base(int n) : baseNum(n) {
-		cout << "Base(int n)" << endl;
-	}
-	void ShowBaseData() {
-		cout << baseNum << endl;
-	}*/
-	//---------------------------------------
-	//유도 클래스 소멸 과정
-	Base(int n) : baseNum(n) {
-		cout << "Base() : " << baseNum << endl;
-	}
-	~Base() {
-		cout << "~Base() : " << baseNum << endl;
-	}
-};
+//class Base {
+//	int baseNum;
+//public:
+//	//유도 클래스 생성 과정
+//	/*Base() : baseNum(20) {
+//		cout << "Base()" << endl;
+//	}
+//	Base(int n) : baseNum(n) {
+//		cout << "Base(int n)" << endl;
+//	}
+//	void ShowBaseData() {
+//		cout << baseNum << endl;
+//	}*/
+//	//---------------------------------------
+//	//유도 클래스 소멸 과정
+//	Base(int n) : baseNum(n) {
+//		cout << "Base() : " << baseNum << endl;
+//	}
+//	~Base() {
+//		cout << "~Base() : " << baseNum << endl;
+//	}
+//};
 
-class Derived : public Base {
-	int derivNum;
-public:
-	//유도 클래스 생성 과정
-	/*Derived() : derivNum(30) {
-		cout << "Derived():" << endl;
-	}
-	Derived(int n) : derivNum(n) {
-		cout << "Derived(int n)" << endl;
-	}
-	Derived(int n1, int n2) : Base(n1), derivNum(n2) {
-		cout << "Derived(int n1, int n2)" << endl;
-	}
-	void ShowDerivData() {
-		ShowBaseData();
-		cout << derivNum << endl;
-	}*/
-	//---------------------------------------
-	//유도 클래스 소멸 과정
-	Derived(int n) : Base(n), derivNum(n) {
-		cout << "Derived() : " << derivNum << endl;
-	}
-	~Derived() {
-		cout << "~Derived() : " << derivNum << endl;
-	}
-};
+//class Derived : public Base {
+//	int derivNum;
+//public:
+//	//유도 클래스 생성 과정
+//	/*Derived() : derivNum(30) {
+//		cout << "Derived():" << endl;
+//	}
+//	Derived(int n) : derivNum(n) {
+//		cout << "Derived(int n)" << endl;
+//	}
+//	Derived(int n1, int n2) : Base(n1), derivNum(n2) {
+//		cout << "Derived(int n1, int n2)" << endl;
+//	}
+//	void ShowDerivData() {
+//		ShowBaseData();
+//		cout << derivNum << endl;
+//	}*/
+//	//---------------------------------------
+//	
+//	//유도 클래스 소멸 과정
+//	/*Derived(int n) : Base(n), derivNum(n) {
+//		cout << "Derived() : " << derivNum << endl;
+//	}
+//	~Derived() {
+//		cout << "~Derived() : " << derivNum << endl;
+//	}*/
+//	//---------------------------------------
+//
+//
+//};
 
 
 int main(void) {
@@ -108,9 +131,15 @@ int main(void) {
 	//-----------------------------------------------------
 
 	//유도 클래스 소멸 과정
-	Derived drv1(15);
-	Derived drv2(27);
+	//Derived drv1(15); //생성자는 기초 클래스부터
+	//Derived drv2(27); //소멸자는 유도클래스부터(객체가 스택에 생성되기 때문)
 
+	//-----------------------------------------------------
+
+	UnivStudent st1("Kim", "Mathmatics");
+	st1.WhoAreYou();
+	UnivStudent st2("Lee", "Physics");
+	st2.WhoAreYou();
 
 	return 0;
 }
