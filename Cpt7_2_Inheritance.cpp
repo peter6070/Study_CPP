@@ -35,7 +35,8 @@ using namespace std;
 class Base {
 	int baseNum;
 public:
-	Base() : baseNum(20) {
+	//유도 클래스 생성 과정
+	/*Base() : baseNum(20) {
 		cout << "Base()" << endl;
 	}
 	Base(int n) : baseNum(n) {
@@ -43,13 +44,22 @@ public:
 	}
 	void ShowBaseData() {
 		cout << baseNum << endl;
+	}*/
+	//---------------------------------------
+	//유도 클래스 소멸 과정
+	Base(int n) : baseNum(n) {
+		cout << "Base() : " << baseNum << endl;
+	}
+	~Base() {
+		cout << "~Base() : " << baseNum << endl;
 	}
 };
 
 class Derived : public Base {
 	int derivNum;
 public:
-	Derived() : derivNum(30) {
+	//유도 클래스 생성 과정
+	/*Derived() : derivNum(30) {
 		cout << "Derived():" << endl;
 	}
 	Derived(int n) : derivNum(n) {
@@ -61,6 +71,14 @@ public:
 	void ShowDerivData() {
 		ShowBaseData();
 		cout << derivNum << endl;
+	}*/
+	//---------------------------------------
+	//유도 클래스 소멸 과정
+	Derived(int n) : Base(n), derivNum(n) {
+		cout << "Derived() : " << derivNum << endl;
+	}
+	~Derived() {
+		cout << "~Derived() : " << derivNum << endl;
 	}
 };
 
@@ -74,7 +92,8 @@ int main(void) {
 
 	//-----------------------------------------------------
 
-	cout << "case1......." << endl;
+	//유도 클래스 생성 과정
+	/*cout << "case1......." << endl;
 	Derived dr1;
 	dr1.ShowDerivData();
 	cout << "------------------" << endl;
@@ -84,7 +103,14 @@ int main(void) {
 	cout << "------------------" << endl;
 	cout << "case3........" << endl;
 	Derived dr3(23, 24);
-	dr3.ShowDerivData();
+	dr3.ShowDerivData();*/
+
+	//-----------------------------------------------------
+
+	//유도 클래스 소멸 과정
+	Derived drv1(15);
+	Derived drv2(27);
+
 
 	return 0;
 }
