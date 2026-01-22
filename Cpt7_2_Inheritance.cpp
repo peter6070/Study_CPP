@@ -1,53 +1,53 @@
 #include <iostream>
 using namespace std;
 
-class Person {
-	/*int age;
-	char name[50];*/
-	char* name;
+//class Person {
+//	/*int age;
+//	char name[50];*/
+//	char* name;
+//
+//public:
+//	/*Person(int myage, const char* myname) : age(myage) {
+//		strcpy_s(name, 50, myname);
+//	}*/
+//	Person(const char* myname) {
+//		int len = strlen(myname)+1;
+//		name = new char[len];
+//		strcpy_s(name, len, myname);
+//	}
+//	~Person() {
+//		delete []name;
+//	}
+//	void WharYourName() const {
+//		cout << "My name is " << name << endl;
+//	}
+//	/*void HowOldAreYou() const {
+//		cout << "I'm " << age << " years old" << endl;
+//	}*/
+//};
 
-public:
-	/*Person(int myage, const char* myname) : age(myage) {
-		strcpy_s(name, 50, myname);
-	}*/
-	Person(const char* myname) {
-		int len = strlen(myname)+1;
-		name = new char[len];
-		strcpy_s(name, len, myname);
-	}
-	~Person() {
-		delete []name;
-	}
-	void WharYourName() const {
-		cout << "My name is " << name << endl;
-	}
-	/*void HowOldAreYou() const {
-		cout << "I'm " << age << " years old" << endl;
-	}*/
-};
-
-class UnivStudent : public Person {	//Person 클래스의 상속
-	//char major[50];
-	char* major;
-public:
-	/*UnivStudent(const char* myname, int myage, const char* mymajor) 
-		: Person(myage, myname) {
-		strcpy_s(major, 50, mymajor);
-	}*/
-	UnivStudent(const char* myname, const char* mymajor) : Person(myname) {
-		int len = strlen(mymajor) + 1;
-		major = new char[len];
-		strcpy_s(major, len, mymajor);
-	}
-	~UnivStudent() {
-		delete[] major;
-	}
-	void WhoAreYou() const {
-		WharYourName(); //상속 함수
-		//HowOldAreYou(); //상속 함수
-		cout << "My major is " << major << endl << endl;
-	}
-};
+//class UnivStudent : public Person {	//Person 클래스의 상속
+//	//char major[50];
+//	char* major;
+//public:
+//	/*UnivStudent(const char* myname, int myage, const char* mymajor) 
+//		: Person(myage, myname) {
+//		strcpy_s(major, 50, mymajor);
+//	}*/
+//	UnivStudent(const char* myname, const char* mymajor) : Person(myname) {
+//		int len = strlen(mymajor) + 1;
+//		major = new char[len];
+//		strcpy_s(major, len, mymajor);
+//	}
+//	~UnivStudent() {
+//		delete[] major;
+//	}
+//	void WhoAreYou() const {
+//		WharYourName(); //상속 함수
+//		//HowOldAreYou(); //상속 함수
+//		cout << "My major is " << major << endl << endl;
+//	}
+//};
 
 //-----------------------------------------------------
 
@@ -105,6 +105,46 @@ public:
 //
 //};
 
+//-----------------------------------------------------
+
+//문제 7-1. 상속과 클래스 호출
+//클래스에 생성자 삽입
+class Car {
+	int gasolineGauge;
+public:
+	Car(int g) : gasolineGauge(g) {
+		cout << "Car(int g): " << gasolineGauge << endl;
+	}
+
+	int GetGasGauge() {
+		return gasolineGauge;
+	}
+};
+
+class HybridCar : public Car {
+	int electricGauge;
+public:
+	HybridCar(int e, int g) : electricGauge(e), Car(g) {
+		cout << "HybridCar(int e, int g): " << electricGauge << endl;
+	}
+	int GetElecGauge() {
+		return electricGauge;
+	}
+};
+
+class HybridWaterCar : public HybridCar {
+	int waterGauge;
+public: 
+	HybridWaterCar(int w, int e, int g) : waterGauge(w), HybridCar(e, g) {
+		cout << "HybridWaterCar(int w, int e, int g): " << waterGauge << endl;
+	}
+	void ShowCurrentGauge() {
+		cout << "Remaining gasolineGauge: " << GetGasGauge() << endl;
+		cout << "Remaining electricGauge: " << GetElecGauge() << endl;
+		cout << "Remaining waterGauge: " << waterGauge << endl;
+	}
+};
+
 
 int main(void) {
 	/*UnivStudent ustd1("Lee", 22, "Computer eng.");
@@ -136,10 +176,17 @@ int main(void) {
 
 	//-----------------------------------------------------
 
-	UnivStudent st1("Kim", "Mathmatics");
+	/*UnivStudent st1("Kim", "Mathmatics");
 	st1.WhoAreYou();
 	UnivStudent st2("Lee", "Physics");
-	st2.WhoAreYou();
+	st2.WhoAreYou();*/
+
+	//-----------------------------------------------------
+
+	//문제 7-1. 상속과 클래스 호출
+	HybridWaterCar hybridWaterCar(100,200,300);
+	hybridWaterCar.ShowCurrentGauge();
+
 
 	return 0;
 }
