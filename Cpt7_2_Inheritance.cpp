@@ -149,7 +149,49 @@ using namespace std;
 
 //문제 7-2. 생성자, 소멸자 정의
 
-class
+class MyFriendInfo {
+	char* name;
+	int age;
+public:
+	MyFriendInfo(const char* myname, int myage) : age(myage) {
+		int len = strlen(myname) +1;
+		name = new char[len];
+		strcpy_s(name, len, myname);
+	}
+	~MyFriendInfo() {
+		delete[] name;
+	}
+	void ShowMyFriendInfo() {
+		cout << "Name: " << name << endl;
+		cout << "Age: " << age << endl;
+	}
+};
+
+class MyFriendDetailInfo : public MyFriendInfo {
+	char* addr;
+	char* phone;
+public:
+	MyFriendDetailInfo(const char* myname, int myage, const char* myaddr, const char* myphone)
+			: MyFriendInfo(myname, myage)
+		{
+		int len = strlen(myaddr) + 1;
+		addr = new char[len];
+		strcpy_s(addr, len, myaddr);
+
+		len = strlen(myphone) + 1;
+		phone = new char[len];
+		strcpy_s(phone, len, myphone);
+	}
+	~MyFriendDetailInfo() {
+		delete[] addr;
+		delete[] phone;
+	}
+	void ShowMyFriendDetailInfo() {
+		ShowMyFriendInfo();
+		cout << "Address: " << addr << endl;
+		cout << "Phone: " << phone << endl;
+	}
+};
 
 
 int main(void) {
@@ -196,7 +238,8 @@ int main(void) {
 	//-----------------------------------------------------
 
 	//문제 7-2. 생성자, 소멸자 정의
-
+	MyFriendDetailInfo myFriendDetail("Lee", 20, "Republic of Korea", "010-1234-5678");
+	myFriendDetail.ShowMyFriendDetailInfo();
 
 	return 0;
 }
