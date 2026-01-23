@@ -109,41 +109,47 @@ using namespace std;
 
 //문제 7-1. 상속과 클래스 호출
 //클래스에 생성자 삽입
-class Car {
-	int gasolineGauge;
-public:
-	Car(int g) : gasolineGauge(g) {
-		cout << "Car(int g): " << gasolineGauge << endl;
-	}
+//class Car {
+//	int gasolineGauge;
+//public:
+//	Car(int g) : gasolineGauge(g) {
+//		cout << "Car(int g): " << gasolineGauge << endl;
+//	}
+//
+//	int GetGasGauge() {
+//		return gasolineGauge;
+//	}
+//};
 
-	int GetGasGauge() {
-		return gasolineGauge;
-	}
-};
+//class HybridCar : public Car {
+//	int electricGauge;
+//public:
+//	HybridCar(int e, int g) : electricGauge(e), Car(g) {
+//		cout << "HybridCar(int e, int g): " << electricGauge << endl;
+//	}
+//	int GetElecGauge() {
+//		return electricGauge;
+//	}
+//};
+//
+//class HybridWaterCar : public HybridCar {
+//	int waterGauge;
+//public: 
+//	HybridWaterCar(int w, int e, int g) : waterGauge(w), HybridCar(e, g) {
+//		cout << "HybridWaterCar(int w, int e, int g): " << waterGauge << endl;
+//	}
+//	void ShowCurrentGauge() {
+//		cout << "Remaining gasolineGauge: " << GetGasGauge() << endl;
+//		cout << "Remaining electricGauge: " << GetElecGauge() << endl;
+//		cout << "Remaining waterGauge: " << waterGauge << endl;
+//	}
+//};
 
-class HybridCar : public Car {
-	int electricGauge;
-public:
-	HybridCar(int e, int g) : electricGauge(e), Car(g) {
-		cout << "HybridCar(int e, int g): " << electricGauge << endl;
-	}
-	int GetElecGauge() {
-		return electricGauge;
-	}
-};
+//-----------------------------------------------------
 
-class HybridWaterCar : public HybridCar {
-	int waterGauge;
-public: 
-	HybridWaterCar(int w, int e, int g) : waterGauge(w), HybridCar(e, g) {
-		cout << "HybridWaterCar(int w, int e, int g): " << waterGauge << endl;
-	}
-	void ShowCurrentGauge() {
-		cout << "Remaining gasolineGauge: " << GetGasGauge() << endl;
-		cout << "Remaining electricGauge: " << GetElecGauge() << endl;
-		cout << "Remaining waterGauge: " << waterGauge << endl;
-	}
-};
+//문제 7-2. 생성자, 소멸자 정의
+
+class
 
 
 int main(void) {
@@ -183,9 +189,13 @@ int main(void) {
 
 	//-----------------------------------------------------
 
-	//문제 7-1. 상속과 클래스 호출
-	HybridWaterCar hybridWaterCar(100,200,300);
-	hybridWaterCar.ShowCurrentGauge();
+	////문제 7-1. 상속과 클래스 호출
+	//HybridWaterCar hybridWaterCar(100,200,300);
+	//hybridWaterCar.ShowCurrentGauge();
+
+	//-----------------------------------------------------
+
+	//문제 7-2. 생성자, 소멸자 정의
 
 
 	return 0;
