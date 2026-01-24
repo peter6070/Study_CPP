@@ -18,10 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt7_1_Inheritance_EmployeeManager1.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Cpt7_2_Inheritance.cpp">
+    <ClCompile Include="Cpt7_3_protected.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
