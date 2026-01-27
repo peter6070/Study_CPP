@@ -73,14 +73,42 @@ public:
 	}
 };
 
-class Police : public Gun {
+//class Police : public Gun {
+//private:
+//	int handcuffs;
+//public:
+//	Police(int bnum, int bcuff) : Gun(bnum), handcuffs(bcuff) {}
+//	void PutHandcuff() {
+//		cout << "SNAP!" << endl;
+//		handcuffs--;
+//	}
+//};
+
+//HAS-A 상속이 아닌 다른 방법
+class Police {
 private:
 	int handcuffs;
+	Gun* pistol;
 public:
-	Police(int bnum, int bcuff) : Gun(bnum), handcuffs(bcuff) {}
+	Police(int bnum, int bcuff) : handcuffs(bnum) {
+		if (bnum > 0)
+			pistol = new Gun(bnum);
+		else
+			pistol = NULL;
+	}
 	void PutHandcuff() {
 		cout << "SNAP!" << endl;
 		handcuffs--;
+	}
+	void Shot() {
+		if (pistol == NULL)
+			cout << "No Armo!" << endl;
+		else
+			pistol->Shot();
+	}
+	~Police() {
+		if (pistol != NULL)
+			delete pistol;
 	}
 };
 
@@ -93,9 +121,18 @@ int main(void) {
 
 	//----------------------------------------------
 	//HAS-A
-	Police pman(5, 3); //총알 5, 수갑 3
-	pman.Shot();
-	pman.PutHandcuff();
+	//Police pman(5, 3); //총알 5, 수갑 3
+	//pman.Shot();
+	//pman.PutHandcuff();
+
+	//HAS-A 상속이 아닌 다른 방법
+	Police pman1(5, 3);
+	pman1.Shot();
+	pman1.PutHandcuff();
+
+	Police pman2(0, 3); //권총 소유 X
+	pman2.Shot();
+	pman2.PutHandcuff();
 
 
 	return 0;
