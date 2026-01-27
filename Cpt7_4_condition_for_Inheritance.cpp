@@ -100,7 +100,7 @@ public:
 		cout << "SNAP!" << endl;
 		handcuffs--;
 	}
-	void Shot() {
+	void Shot() { //Gun 객체를 멤버변수를 통해 참조하는 구조이기 때문에 별도의 함수 정의 필요
 		if (pistol == NULL)
 			cout << "No Armo!" << endl;
 		else
