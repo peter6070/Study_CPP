@@ -114,22 +114,70 @@ using namespace std;
 
 //----------------------------------------------
 //문제1. 사각형의 클래스 상속
-class Rectangle {
-	int width;
-	int height;
+//class Rectangle {
+//	int width;
+//	int height;
+//public:
+//	Rectangle(int w, int h) 
+//		: width(w), height(h) {}
+//	void ShowAreaInfo() {
+//		cout << "Area: " << width * height << endl;
+//	}
+//};
+//
+//class Square : public Rectangle {
+//	int len;
+//public:
+//	Square(int l)
+//		:Rectangle(l,l){}
+//};
+
+//----------------------------------------------
+//문제2. 책의 클래스 상속
+class Book {
+private:
+	char* title;
+	char* isbn; //국제표준도서번호
+	int price;
 public:
-	Rectangle(int w, int h) 
-		: width(w), height(h) {}
-	void ShowAreaInfo() {
-		cout << "Area: " << width * height << endl;
+	Book(const char* _title, const char* _isbn, int _price)
+		: price(_price) {
+		int len = strlen(_title) + 1;
+		title = new char[len];
+		strcpy_s(title, len, _title);
+
+		len = strlen(_isbn) + 1;
+		isbn = new char[len];
+		strcpy_s(isbn, len, _isbn);
+	}
+	void ShowBookInfo() {
+		cout << "Title: " << title << endl;
+		cout << "ISBN: " << isbn << endl;
+		cout << "Price: " << price << endl;
+	}
+	~Book() {
+		delete[] title;
+		delete[] isbn;
 	}
 };
 
-class Square : public Rectangle {
-	int len;
+class EBook : public Book {
+private:
+	char* DRMKey; //보안관련 키
 public:
-	Square(int l)
-		:Rectangle(l,l){}
+	EBook(const char* _title, const char* _isbn, int _price, const char* _DRMKey)
+		: Book(_title, _isbn, _price) {
+		int len = strlen(_DRMKey) + 1;
+		DRMKey = new char[len];
+		strcpy_s(DRMKey, len, _DRMKey);
+	}
+	void ShowEBookInfo() {
+		ShowBookInfo();
+		cout << "DRMKey: " << DRMKey << endl;
+	}
+	~EBook() {
+		delete[] DRMKey;
+	}
 };
 
 int main(void) {
@@ -156,13 +204,20 @@ int main(void) {
 	//----------------------------------------------
 
 	//문제1. 사각형의 클래스 상속
-	Rectangle rec(4, 3);
+	/*Rectangle rec(4, 3);
 	rec.ShowAreaInfo();
 
 	Square sqr(7);
-	sqr.ShowAreaInfo();
+	sqr.ShowAreaInfo();*/
 
+	//----------------------------------------------
 
+	//문제2. 책의 클래스 상속
+	Book book("Good C++", "555-12345-890-0", 20000);
+	book.ShowBookInfo();
+	cout << endl;
+	EBook ebook("Good C++ ebook", "555-12345-890-1", 10000, "fdx9wi8ikw");
+	ebook.ShowEBookInfo();
 
 	return 0;
 }
