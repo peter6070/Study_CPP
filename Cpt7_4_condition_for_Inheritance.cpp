@@ -62,17 +62,17 @@ using namespace std;
 //};
 //----------------------------------------------
 
-class Gun {
-private:
-	int bullet;
-public:
-	Gun(int bnum) : bullet(bnum) {}
-	void Shot() {
-		cout << "Bang!" << endl;
-		bullet--;
-	}
-};
-
+//class Gun {
+//private:
+//	int bullet;
+//public:
+//	Gun(int bnum) : bullet(bnum) {}
+//	void Shot() {
+//		cout << "Bang!" << endl;
+//		bullet--;
+//	}
+//};
+//
 //class Police : public Gun {
 //private:
 //	int handcuffs;
@@ -84,32 +84,52 @@ public:
 //	}
 //};
 
-//HAS-A 상속이 아닌 다른 방법
-class Police {
-private:
-	int handcuffs;
-	Gun* pistol;
+////HAS-A 상속이 아닌 다른 방법
+//class Police {
+//private:
+//	int handcuffs;
+//	Gun* pistol;
+//public:
+//	Police(int bnum, int bcuff) : handcuffs(bnum) {
+//		if (bnum > 0)
+//			pistol = new Gun(bnum);
+//		else
+//			pistol = NULL;
+//	}
+//	void PutHandcuff() {
+//		cout << "SNAP!" << endl;
+//		handcuffs--;
+//	}
+//	void Shot() { //Gun 객체를 멤버변수를 통해 참조하는 구조이기 때문에 별도의 함수 정의 필요
+//		if (pistol == NULL)
+//			cout << "No Armo!" << endl;
+//		else
+//			pistol->Shot();
+//	}
+//	~Police() {
+//		if (pistol != NULL)
+//			delete pistol;
+//	}
+//};
+
+//----------------------------------------------
+//문제1. 사각형의 클래스 상속
+class Rectangle {
+	int width;
+	int height;
 public:
-	Police(int bnum, int bcuff) : handcuffs(bnum) {
-		if (bnum > 0)
-			pistol = new Gun(bnum);
-		else
-			pistol = NULL;
+	Rectangle(int w, int h) 
+		: width(w), height(h) {}
+	void ShowAreaInfo() {
+		cout << "Area: " << width * height << endl;
 	}
-	void PutHandcuff() {
-		cout << "SNAP!" << endl;
-		handcuffs--;
-	}
-	void Shot() { //Gun 객체를 멤버변수를 통해 참조하는 구조이기 때문에 별도의 함수 정의 필요
-		if (pistol == NULL)
-			cout << "No Armo!" << endl;
-		else
-			pistol->Shot();
-	}
-	~Police() {
-		if (pistol != NULL)
-			delete pistol;
-	}
+};
+
+class Square : public Rectangle {
+	int len;
+public:
+	Square(int l)
+		:Rectangle(l,l){}
 };
 
 int main(void) {
@@ -125,14 +145,23 @@ int main(void) {
 	//pman.Shot();
 	//pman.PutHandcuff();
 
-	//HAS-A 상속이 아닌 다른 방법
-	Police pman1(5, 3);
-	pman1.Shot();
-	pman1.PutHandcuff();
+	////HAS-A 상속이 아닌 다른 방법
+	//Police pman1(5, 3);
+	//pman1.Shot();
+	//pman1.PutHandcuff();
 
-	Police pman2(0, 3); //권총 소유 X
-	pman2.Shot();
-	pman2.PutHandcuff();
+	//Police pman2(0, 3); //권총 소유 X
+	//pman2.Shot();
+	//pman2.PutHandcuff();
+	//----------------------------------------------
+
+	//문제1. 사각형의 클래스 상속
+	Rectangle rec(4, 3);
+	rec.ShowAreaInfo();
+
+	Square sqr(7);
+	sqr.ShowAreaInfo();
+
 
 
 	return 0;
