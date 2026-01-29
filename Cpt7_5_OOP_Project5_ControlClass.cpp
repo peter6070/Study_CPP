@@ -5,21 +5,8 @@ using namespace std;
 //계좌 관리 프로그램 0.5
 //컨트롤 클래스 정의
 
-
 //최대 고객 수
 const int MAX_CLIENT = 100;
-
-//저장된 고객수
-int accNum = 0;
-
-//함수 선언
-void PrintMenu();
-void PrintMenu();
-void MakeAccount();
-void Deposit();
-void Withdraw();
-void ShowAllAccInfo();
-
 
 //Account 클래스
 class Account {
@@ -73,33 +60,145 @@ public:
 	}
 };
 
-Account* accArr[MAX_CLIENT];
+
+//컨트롤 클래스
+class AccountHandler {
+public:
+	//저장된 고객수
+	int accNum = 0;
+
+	//계좌정보 클래스 배열
+	Account* accArr[MAX_CLIENT];
+public:
+	////함수 선언
+	//void PrintMenu();
+	//void PrintMenu();
+	//void MakeAccount();
+	//void Deposit();
+	//void Withdraw();
+	//void ShowAllAccInfo();
+	//함수 정의
+
+//메뉴 출력
+	void PrintMenu() {
+		cout << "----Menu----" << endl;
+		cout << "1. Account opening" << endl;
+		cout << "2. Deposit" << endl;
+		cout << "3. WithDrawal" << endl;
+		cout << "4. Print all accout Info" << endl;
+		cout << "5. Exit program" << endl;
+		cout << "Select Number: ";
+	}
+
+	//계좌 개설
+	void MakeAccount() {
+		int id;
+		char name[100];
+		int balance;
+		cout << "[Account opening]" << endl;
+		cout << "Account ID: ";
+		cin >> id;
+		cout << "Name: ";
+		cin >> name;
+		cout << "Deposit amount: ";
+		cin >> balance;
+		accArr[accNum++] = new Account(id, name, balance);
+		/*accNum++;*/
+	}
+
+	//입금
+	void Deposit() {
+		int searchID = 0; //입금 계좌 ID
+		int changeAmount = 0; //추가 입금액
+		//bool isIDFound = false; //ID 검색 확인 여부
+
+		cout << "[Deposit]" << endl;
+		cout << "Account ID: ";
+		cin >> searchID;
+		for (int i = 0; i < accNum; i++) { //id 찾기
+			if (searchID == accArr[i]->GetID()) {
+				//isIDFound = true;
+				cout << "Deposit amount: ";
+				cin >> changeAmount;
+				accArr[i]->DepositBalance(changeAmount);
+				cout << "Deposit Complete" << endl;
+				return;
+			}
+		}
+		//if (!isIDFound)
+		cout << "ID Not Found" << endl;
+	}
+
+	//출금
+	void Withdraw() {
+		int searchID = 0; //입금 계좌 ID
+		int changeAmount = 0; //추가 입금액
+		//bool isIDFound = false; //ID 검색 확인 여부
+
+		cout << "[WithDrawal]" << endl;
+		cout << "Account ID: ";
+		cin >> searchID;
+		for (int i = 0; i < accNum; i++) { //id 찾기
+			if (searchID == accArr[i]->GetID()) {
+				//isIDFound = true;
+				cout << "Withdrawal amount: ";
+				cin >> changeAmount;
+				if (accArr[i]->WithdrawalBalance(changeAmount) == 0) {
+					cout << "Balance shortage" << endl;
+					return;
+				}
+				cout << "Withdrawal Complete" << endl;
+				return;
+			}
+		}
+		//if (!isIDFound)
+		cout << "ID Not Found" << endl;
+	}
+
+	////모든 고객 계좌 정보 출력
+	void ShowAllAccInfo() {
+		for (int i = 0; i < accNum; i++) {
+			/*cout << "\nAccount ID: " << accArr[i]->GetID() << endl;
+			cout << "Name: " << accArr[i]->GetName() << endl;
+			cout << "Balance: " << accArr[i]->GetBalance() << endl << endl;*/
+			accArr[i]->ShowAccInfo();
+		}
+	}
+};
+
+
+
+
+
+
 
 int main(void) {
+
+	AccountHandler accHan;
 
 	int selectNum = 0; //번호 선택
 
 	while (true) {
-		PrintMenu();
+		accHan.PrintMenu();
 		cin >> selectNum;
 		switch (selectNum)
 		{
 		case 1:
-			MakeAccount();
+			accHan.MakeAccount();
 			break;
 		case 2:
-			Deposit();
+			accHan.Deposit();
 			break;
 		case 3:
-			Withdraw();
+			accHan.Withdraw();
 			break;
 		case 4:
-			ShowAllAccInfo();
+			accHan.ShowAllAccInfo();
 			break;
 		case 5:
 			cout << "Pragram Exit" << endl;
-			for (int i = 0; i < accNum; i++) {
-				delete accArr[i];
+			for (int i = 0; i < accHan.accNum; i++) {
+				delete accHan.accArr[i];
 			}
 			return 0;
 		default:
@@ -108,92 +207,4 @@ int main(void) {
 		}
 	}
 	return 0;
-}
-
-//함수 정의
-
-//메뉴 출력
-void PrintMenu() {
-	cout << "----Menu----" << endl;
-	cout << "1. Account opening" << endl;
-	cout << "2. Deposit" << endl;
-	cout << "3. WithDrawal" << endl;
-	cout << "4. Print all accout Info" << endl;
-	cout << "5. Exit program" << endl;
-	cout << "Select Number: ";
-}
-
-//계좌 개설
-void MakeAccount() {
-	int id;
-	char name[100];
-	int balance;
-	cout << "[Account opening]" << endl;
-	cout << "Account ID: ";
-	cin >> id;
-	cout << "Name: ";
-	cin >> name;
-	cout << "Deposit amount: ";
-	cin >> balance;
-	accArr[accNum++] = new Account(id, name, balance);
-	/*accNum++;*/
-}
-
-//입금
-void Deposit() {
-	int searchID = 0; //입금 계좌 ID
-	int changeAmount = 0; //추가 입금액
-	//bool isIDFound = false; //ID 검색 확인 여부
-
-	cout << "[Deposit]" << endl;
-	cout << "Account ID: ";
-	cin >> searchID;
-	for (int i = 0; i < accNum; i++) { //id 찾기
-		if (searchID == accArr[i]->GetID()) {
-			//isIDFound = true;
-			cout << "Deposit amount: ";
-			cin >> changeAmount;
-			accArr[i]->DepositBalance(changeAmount);
-			cout << "Deposit Complete" << endl;
-			return;
-		}
-	}
-	//if (!isIDFound)
-	cout << "ID Not Found" << endl;
-}
-
-//출금
-void Withdraw() {
-	int searchID = 0; //입금 계좌 ID
-	int changeAmount = 0; //추가 입금액
-	//bool isIDFound = false; //ID 검색 확인 여부
-
-	cout << "[WithDrawal]" << endl;
-	cout << "Account ID: ";
-	cin >> searchID;
-	for (int i = 0; i < accNum; i++) { //id 찾기
-		if (searchID == accArr[i]->GetID()) {
-			//isIDFound = true;
-			cout << "Withdrawal amount: ";
-			cin >> changeAmount;
-			if (accArr[i]->WithdrawalBalance(changeAmount) == 0) {
-				cout << "Balance shortage" << endl;
-				return;
-			}
-			cout << "Withdrawal Complete" << endl;
-			return;
-		}
-	}
-	//if (!isIDFound)
-	cout << "ID Not Found" << endl;
-}
-
-////모든 고객 계좌 정보 출력
-void ShowAllAccInfo() {
-	for (int i = 0; i < accNum; i++) {
-		/*cout << "\nAccount ID: " << accArr[i]->GetID() << endl;
-		cout << "Name: " << accArr[i]->GetName() << endl;
-		cout << "Balance: " << accArr[i]->GetBalance() << endl << endl;*/
-		accArr[i]->ShowAccInfo();
-	}
 }
