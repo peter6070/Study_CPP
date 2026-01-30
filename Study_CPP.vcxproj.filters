@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt7_5_OOP_Project5_ControlClass.cpp">
+    <ClCompile Include="Cpt8_1_ObjectPointer_Reference.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
