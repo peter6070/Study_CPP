@@ -48,7 +48,50 @@ public:
 	}
 	void ShowSalaryInfo() const {
 		ShowYourName();
-		cout << "salary: " << GetPay() << endl << endl;
+		cout << "Salary: " << GetPay() << endl << endl;
+	}
+};
+
+//임시직(시급 x 일한 시간)
+class TemporaryWorker : public Employee {
+private:
+	int workTime; //이 달에 일한 시간 합계
+	int payPerHour; //시급
+public:
+	TemporaryWorker(const char* name, int pay)
+		: Employee(name), workTime(0), payPerHour(pay) {	}
+	void AddWorkTime(int time) {
+		workTime += time;
+	}
+	int GetPay() const {
+		return workTime * payPerHour;
+	}
+	void ShowSalaryInfo() const {
+		ShowYourName();
+		cout << "Salary: " << GetPay() << endl << endl;
+	}
+};
+
+//영업직
+class SalesWorker : public PermanentWorker {
+private:
+	int salesResult; //월 판매실적
+	double bonusRatio; //상여금 비율
+public:
+	SalesWorker(const char * name, int money, double ratio)
+		: PermanentWorker(name, money), salesResult(0), bonusRatio(ratio){}
+	void AddSalesResult(int value) {
+		salesResult += value;
+	}
+	int GetPay() const {
+		return PermanentWorker::GetPay() //PermanentWorker의 GetPay함수 호출
+			+ (int)(salesResult * bonusRatio);
+	}
+	//PermanentWorker에도 같은 함수가 존재하지만 GetPay함수의 내용이 서로 다르기 때문에
+	// 따로 분리하여 각각 선언해줘야 적절한 값이 출력됨
+	void ShowSalaryInfo() const {
+		ShowYourName();
+		cout << "Salary: " << GetPay() << endl << endl;
 	}
 };
 
@@ -95,10 +138,20 @@ int main(void) {
 
 	EmployeeHandler handler;
 
-	//직원등록
+	//정규직 등록
 	handler.AddEmployee(new PermanentWorker("KIM", 1000));
 	handler.AddEmployee(new PermanentWorker("LEE", 1000));
 	handler.AddEmployee(new PermanentWorker("JUN", 1000));
+
+	//임시직 등록
+	TemporaryWorker* alba = new TemporaryWorker("Jung", 700);
+	alba->AddWorkTime(5);
+	handler.AddEmployee(alba);
+
+	//영업직 등록
+	SalesWorker* seller = new SalesWorker("Hong", 1000, 0.1);
+	seller->AddSalesResult(7000);
+	handler.AddEmployee(seller);
 
 	//이번 달 지불할 급여
 	handler.ShowAllSalaryInfo();
