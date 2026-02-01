@@ -75,7 +75,7 @@ public:
 
 //영업직
 class SalesWorker : public PermanentWorker {
-private:
+protected:
 	int salesResult; //월 판매실적
 	double bonusRatio; //상여금 비율
 public:
@@ -94,6 +94,35 @@ public:
 	void ShowSalaryInfo() const {
 		ShowYourName();
 		cout << "Salary: " << GetPay() << endl << endl;
+	}
+};
+
+enum RISK_LEVEL {
+	//단위: %
+	RISK_A=30,
+	RISK_B=20,
+	RISK_C=10
+};
+
+//문제1. 영업직 위험수당 챙기기
+class ForeignSalesWorker : public SalesWorker{
+private:
+	double riskRatio;
+	int riskPay;
+public:
+	ForeignSalesWorker(const char* name, int money, double ratio, int riskLevel)
+		: SalesWorker(name, money, ratio), riskRatio(riskLevel*0.01) {	}
+	void AddSalesResult(int value) {
+		salesResult += value;
+		riskPay = GetPay() * riskRatio;
+	}
+	//PermanentWorker에도 같은 함수가 존재하지만 GetPay함수의 내용이 서로 다르기 때문에
+	// 따로 분리하여 각각 선언해줘야 적절한 값이 출력됨
+	void ShowSalaryInfo() const {
+		ShowYourName();
+		cout << "Salary: " << GetPay() << endl;
+		cout << "Risk Pay: " << riskPay << endl;
+		cout << "Sum: " << GetPay() + riskPay << endl << endl;
 	}
 };
 
@@ -127,6 +156,8 @@ public:
 	}
 };
 
+
+
 int main(void) {
 	//Third* tptr = new Third();
 	//Second* sptr = tptr;
@@ -143,19 +174,33 @@ int main(void) {
 
 	//Employee* emp = new Employee("Lee"); //순수 가상함수를 선언함으로써 추상클래스가 되었으므로 컴파일 오류 발생
 
-	//정규직 등록
-	handler.AddEmployee(new PermanentWorker("KIM", 1000));
-	handler.AddEmployee(new PermanentWorker("LEE", 1500));
+	////정규직 등록
+	//handler.AddEmployee(new PermanentWorker("KIM", 1000));
+	//handler.AddEmployee(new PermanentWorker("LEE", 1500));
 
-	//임시직 등록
-	TemporaryWorker* alba = new TemporaryWorker("Jung", 700);
-	alba->AddWorkTime(5);
-	handler.AddEmployee(alba);
+	////임시직 등록
+	//TemporaryWorker* alba = new TemporaryWorker("Jung", 700);
+	//alba->AddWorkTime(5);
+	//handler.AddEmployee(alba);
 
-	//영업직 등록
-	SalesWorker* seller = new SalesWorker("Hong", 1000, 0.1);
-	seller->AddSalesResult(7000);
-	handler.AddEmployee(seller);
+	////영업직 등록
+	//SalesWorker* seller = new SalesWorker("Hong", 1000, 0.1);
+	//seller->AddSalesResult(7000);
+	//handler.AddEmployee(seller);
+
+	//---------------------------------------------
+	//문제1. 영업직 위험수당 챙기기
+	ForeignSalesWorker* fseller1 = new ForeignSalesWorker("Hong", 1000, 0.1,RISK_LEVEL::RISK_A);
+	fseller1->AddSalesResult(7000);
+	handler.AddEmployee(fseller1);
+
+	ForeignSalesWorker* fseller2 = new ForeignSalesWorker("Yoon", 1000, 0.1, RISK_LEVEL::RISK_B);
+	fseller2->AddSalesResult(7000);
+	handler.AddEmployee(fseller2);
+
+	ForeignSalesWorker* fseller3 = new ForeignSalesWorker("Lee", 1000, 0.1, RISK_LEVEL::RISK_C);
+	fseller3->AddSalesResult(7000);
+	handler.AddEmployee(fseller3);
 
 	//이번 달 지불할 급여
 	handler.ShowAllSalaryInfo();
