@@ -75,7 +75,7 @@ public:
 
 //영업직
 class SalesWorker : public PermanentWorker {
-protected:
+private:
 	int salesResult; //월 판매실적
 	double bonusRatio; //상여금 비율
 public:
@@ -97,32 +97,35 @@ public:
 	}
 };
 
-enum RISK_LEVEL {
-	//단위: %
-	RISK_A=30,
-	RISK_B=20,
-	RISK_C=10
+namespace RISK_LEVEL {
+	enum {
+		//단위: %
+		RISK_A = 30,
+		RISK_B = 20,
+		RISK_C = 10
+	};
 };
 
 //문제1. 영업직 위험수당 챙기기
 class ForeignSalesWorker : public SalesWorker{
 private:
-	double riskRatio;
-	int riskPay;
+	//double riskRatio;
+	const int riskLevel;
 public:
-	ForeignSalesWorker(const char* name, int money, double ratio, int riskLevel)
-		: SalesWorker(name, money, ratio), riskRatio(riskLevel*0.01) {	}
-	void AddSalesResult(int value) {
-		salesResult += value;
-		riskPay = GetPay() * riskRatio;
+	ForeignSalesWorker(const char* name, int money, double ratio, int risk)
+		: SalesWorker(name, money, ratio), riskLevel(risk) {	}
+	
+	int GetRiskPay() const {
+		return (int)(SalesWorker::GetPay() * (riskLevel / 100.0));
 	}
-	//PermanentWorker에도 같은 함수가 존재하지만 GetPay함수의 내용이 서로 다르기 때문에
-	// 따로 분리하여 각각 선언해줘야 적절한 값이 출력됨
+	int GetPay() const {
+		return SalesWorker::GetPay() + GetRiskPay();
+	}
 	void ShowSalaryInfo() const {
 		ShowYourName();
-		cout << "Salary: " << GetPay() << endl;
-		cout << "Risk Pay: " << riskPay << endl;
-		cout << "Sum: " << GetPay() + riskPay << endl << endl;
+		cout << "Salary: " << SalesWorker::GetPay() << endl;
+		cout << "Risk Pay: " << GetRiskPay() << endl;
+		cout << "Sum: " << GetPay()<< endl << endl;
 	}
 };
 
