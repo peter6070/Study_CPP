@@ -19,6 +19,7 @@ using namespace std;
 
 //-------------------------------------------------
 
+//Employee는 기초 클래스로서만 의미를 가질 뿐, 객체 생성을 목적으로 정의된 클래스가 아님
 class Employee {
 private:
 	char name[100];
@@ -30,10 +31,9 @@ public:
 		cout << "name: " << name << endl;
 	}
 	//가상함수로 선언함으로써 함수 오버라이딩이 되더라도 포인터가 가리키는 객체를 기준으로 함수가 선언되도록 함
-	virtual int GetPay() const {
-		return 0;
-	}
-	virtual void ShowSalaryInfo() const{}
+	virtual int GetPay() const = 0; //순수 가상함수(=0)
+	
+	virtual void ShowSalaryInfo() const = 0; //순수 가상함수
 };
 
 //정규직 직원
@@ -140,6 +140,8 @@ int main(void) {
 	//--------------------------------------------------------
 
 	EmployeeHandler handler;
+
+	//Employee* emp = new Employee("Lee"); //순수 가상함수를 선언함으로써 추상클래스가 되었으므로 컴파일 오류 발생
 
 	//정규직 등록
 	handler.AddEmployee(new PermanentWorker("KIM", 1000));
