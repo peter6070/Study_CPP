@@ -5,6 +5,24 @@ using namespace std;
 //계좌 관리 프로그램 0.6
 //보통예금계좌, 신용신뢰계좌 클래스 추가
 
+//사용자 선택 메뉴
+enum {
+	MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT
+};
+
+//신용등급
+enum {
+	LEVEL_A=7,
+	LEVEL_B=4,
+	LEVEL_C=2
+};
+
+//계좌 종류
+enum {
+	NORMAL=1,
+	CREDIT=2
+};
+
 //최대 고객 수
 const int MAX_CLIENT = 100;
 
@@ -71,13 +89,13 @@ public:
 	AccountHandler();
 	void PrintMenu() const;
 	void MakeAccount();
-	void MakeNormalAccount(int id, char* name, int balance);
-	void MakeHighCreditAccount(int id, char* name, int balance);
 	void Deposit();
 	void Withdraw();
 	void ShowAllAccInfo() const;
 	~AccountHandler();
-
+protected:
+	void MakeNormalAccount();
+	void MakeHighCreditAccount();
 };
 
 
@@ -89,39 +107,27 @@ public:
 //보통예금계좌
 class NormalAccount :public Account {
 private:
-	int interestRate;
+	int interestRate; //이자율 단위 %
 public:
 	NormalAccount(int myId, char* nameStr, int myBalance, int myInterRate)
 		: Account(myId, nameStr, myBalance), interestRate(myInterRate) {
 	}
-	void SetInterRate(int rate) {
-		interestRate += rate;
-	}
 	virtual void Deposit(int money) {
-		Account::Deposit(money + (int)(money * interestRate * 0.01));
+		Account::Deposit(money); //원금 추가
+		Account::Deposit(money * (interestRate /100.0)); //이자 추가
 	}
 };
 
 //신용신뢰계좌
 class HighCreditAccount : public NormalAccount {
 private:
-	int trustLevel;
+	int specialRate;
 public:
-	HighCreditAccount(int myId, char* nameStr, int myBalance, int myInterRate, int myTrustLevel)
-		: NormalAccount(myId, nameStr, myBalance, myInterRate), trustLevel(myTrustLevel) {
-		switch (trustLevel) {
-		case 1:
-			SetInterRate(7);
-			break;
-		case 2:
-			SetInterRate(4);
-			break;
-		case 3:
-			SetInterRate(2);
-			break;
-		default:
-			return;
-		}
+	HighCreditAccount(int myId, char* nameStr, int myBalance, int myInterRate, int special)
+		: NormalAccount(myId, nameStr, myBalance, myInterRate), specialRate(special) {	}
+	virtual void Deposit(int money) {
+		NormalAccount::Deposit(money); //원금, 이자 추가
+		Account::Deposit(money * (specialRate / 100.0)); //특별이자 추가
 	}
 };
 
@@ -141,19 +147,17 @@ void AccountHandler::PrintMenu() const {
 
 //계좌 개설
 void AccountHandler::MakeAccount() {
-	int id=0;
-	char name[100];
-	int balance=0;
 	int selectAccount;
+
 	cout << "[Select Account Type]" << endl;
 	cout << "1. Normal Account  2. High Credit Account: ";
 	cin >> selectAccount;
 	switch (selectAccount) {
-	case 1: 
-		MakeNormalAccount(id, name, balance);
+	case NORMAL: 
+		MakeNormalAccount();
 		break;
-	case 2: 
-		MakeHighCreditAccount(id, name, balance);
+	case CREDIT: 
+		MakeHighCreditAccount();
 		break;
 	default: 
 		cout << "Select 1 or 2" << endl;
@@ -162,35 +166,50 @@ void AccountHandler::MakeAccount() {
 	}
 }
 //보통예금계좌 개설
-void AccountHandler::MakeNormalAccount(int id, char* name, int balance) {
-	cout << "[Normal Account Opening]" << endl;
-	cout << "Account ID: ";
-	cin >> id;
-	cout << "Name: ";
-	cin >> name;
-	cout << "Deposit amount: ";
-	cin >> balance;
+void AccountHandler::MakeNormalAccount() {
+	int id ;
+	char name[100];
+	int balance;
 	int interestRate;
-	cout << "Interest Rate: ";
-	cin >> interestRate;
+
+	cout << "[Normal Account Opening]" << endl;
+	cout << "Account ID: ";	cin >> id;
+	cout << "Name: ";	cin >> name;
+	cout << "Deposit amount: ";	cin >> balance;
+	cout << "Interest Rate: ";	cin >> interestRate;
+	cout << endl;
+
 	accArr[accNum++] = new NormalAccount(id, name, balance, interestRate);
 }
 //신용신뢰계좌 개설
-void AccountHandler::MakeHighCreditAccount(int id, char* name, int balance) {
-	cout << "[High Credit Account Opening]" << endl;
-	cout << "Account ID: ";
-	cin >> id;
-	cout << "Name: ";
-	cin >> name;
-	cout << "Deposit amount: ";
-	cin >> balance;
+void AccountHandler::MakeHighCreditAccount() {
+	int id ;
+	char name[100];
+	int balance ;
 	int interestRate;
-	cout << "Interest Rate: ";
-	cin >> interestRate;
 	int trustLevel;
-	cout << "Trust Level(1toA, 2toB, 3toC): ";
-	cin >> trustLevel;
-	accArr[accNum++] = new HighCreditAccount(id, name, balance, interestRate, trustLevel);
+
+	cout << "[High Credit Account Opening]" << endl;
+	cout << "Account ID: ";	cin >> id;
+	cout << "Name: ";	cin >> name;
+	cout << "Deposit amount: ";	cin >> balance;
+	cout << "Interest Rate: ";	cin >> interestRate;
+	cout << "Trust Level(1toA, 2toB, 3toC): ";	cin >> trustLevel;
+	cout << endl;
+
+	//신용등급 따라 이자율 부여
+	switch (trustLevel) {
+	case 1:
+		accArr[accNum++] = new HighCreditAccount(id, name, balance, interestRate, LEVEL_A);
+		break;
+	case 2:
+		accArr[accNum++] = new HighCreditAccount(id, name, balance, interestRate, LEVEL_B);
+		break;
+	case 3:
+		accArr[accNum++] = new HighCreditAccount(id, name, balance, interestRate, LEVEL_C);
+		break;
+	}
+
 }
 
 //입금
@@ -260,19 +279,19 @@ int main(void) {
 		cin >> selectNum;
 		switch (selectNum)
 		{
-		case 1:
+		case MAKE:
 			accHan.MakeAccount();
 			break;
-		case 2:
+		case DEPOSIT:
 			accHan.Deposit();
 			break;
-		case 3:
+		case WITHDRAW:
 			accHan.Withdraw();
 			break;
-		case 4:
+		case INQUIRE:
 			accHan.ShowAllAccInfo();
 			break;
-		case 5:
+		case EXIT:
 			cout << "Pragram Exit" << endl;
 			return 0;
 		default:
