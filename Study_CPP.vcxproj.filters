@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt8_3_VirtualDestructor_ReferencePossibility.cpp">
+    <ClCompile Include="Cpt8_4_OOP_Project6_InheritanceAccount.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

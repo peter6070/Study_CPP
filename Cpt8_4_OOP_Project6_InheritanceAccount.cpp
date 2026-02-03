@@ -18,7 +18,7 @@ public:
 	Account(const Account& copy);
 
 	int GetAccID() const;
-	void Deposit(int money);
+	void Deposit(int money, int rate);
 	int Withdraw(int money);
 	void ShowAccInfo() const;
 	~Account();
@@ -31,8 +31,7 @@ Account::Account(int myId, char* nameStr, int myBalance)
 	cusName = new char[len];
 	strcpy_s(cusName, len, nameStr);
 }
-//복사 생성자
-//동적 할당을 하는 클래스(char*)는 무조건 복사 생성자를 정의해서 깊은 복사를 해야 함(보험으로 작성한 것, 이 코드 예시에서는 작동 X)
+
 Account::Account(const Account& copy)
 	: id(copy.id), balance(copy.balance)
 {
@@ -44,32 +43,24 @@ Account::Account(const Account& copy)
 int Account::GetAccID() const {
 	return id;
 }
-//char* GetName() const {
-//	return cusName;
-//}
-//int GetBalance() const {
-//	return balance;
-//}
-void Account::Deposit(int money) { //void 형에는 const가 의미없음(const: 리턴값이 상수이다)
-	balance += money;
+void Account::Deposit(int money, int rate) {
+	balance += (money+(int)(money*rate*0.01));
 }
-int Account::Withdraw(int money) { //잔액 수정해야하므로 const 제거
+int Account::Withdraw(int money) {
 	if (balance < money)
 		return 0;
 	balance -= money;
 
-	return balance; //리턴 빼먹은거 추가
+	return balance;
 }
 void Account::ShowAccInfo() const {
 	cout << "\nAccount ID: " << id << endl;
 	cout << "Name: " << cusName << endl;
-	cout << "Balance: " << balance << endl << endl;
+	cout << "Balance: " << balance << endl;
 }
 Account::~Account() {
 	delete[] cusName;
 }
-
-
 
 //컨트롤 클래스
 class AccountHandler {
@@ -80,12 +71,61 @@ public:
 	AccountHandler();
 	void PrintMenu() const;
 	void MakeAccount();
+	void MakeNormalAccount(int id, char* name, int balance);
+	void MakeHighCreditAccount(int id, char* name, int balance);
 	void Deposit();
 	void Withdraw();
 	void ShowAllAccInfo() const;
 	~AccountHandler();
 
 };
+
+
+//조건
+//계좌개설 과정에서 초기 입금되는 금액에 대해서는 이자 계산X
+//계좌개설 후 별도 입금과정을 거칠 때에만 이자 발생(입금할때만 기존 금액에 이자 추가로 붙이고 추가 입금액 포함)
+//이자 계산과정에서 발생하는 소수점 이하는 무시
+
+//보통예금계좌
+class NormalAccount :public Account {
+private:
+	int interestRate;
+public:
+	NormalAccount(int myId, char* nameStr, int myBalance, int myInterRate)
+		: Account(myId, nameStr, myBalance), interestRate(myInterRate) {
+	}
+	void SetInterRate(int rate) {
+		interestRate += rate;
+	}
+	int GetInterRate() const {
+		return interestRate;
+	}
+};
+
+//신용신뢰계좌
+class HighCreditAccount : public NormalAccount {
+private:
+	int trustLevel;
+public:
+	HighCreditAccount(int myId, char* nameStr, int myBalance, int myInterRate, int myTrustLevel)
+		: NormalAccount(myId, nameStr, myBalance, myInterRate), trustLevel(myTrustLevel) {
+		switch (trustLevel) {
+		case 1:
+			SetInterRate(7);
+			break;
+		case 2:
+			SetInterRate(4);
+			break;
+		case 3:
+			SetInterRate(2);
+			break;
+		default:
+			return;
+		}
+	}
+};
+
+
 //함수 정의
 
 //메뉴 출력
@@ -101,23 +141,63 @@ void AccountHandler::PrintMenu() const {
 
 //계좌 개설
 void AccountHandler::MakeAccount() {
-	int id;
+	int id=0;
 	char name[100];
-	int balance;
-	cout << "[Account opening]" << endl;
+	int balance=0;
+	int selectAccount;
+	cout << "[Select Account Type]" << endl;
+	cout << "1. Normal Account  2. High Credit Account";
+	cin >> selectAccount;
+	switch (selectAccount) {
+	case 1: 
+		MakeNormalAccount(id, name, balance);
+		break;
+	case 2: 
+		MakeHighCreditAccount(id, name, balance);
+		break;
+	default: 
+		cout << "Select 1 or 2" << endl;
+		return;
+		break;
+	}
+}
+//보통예금계좌 개설
+void AccountHandler::MakeNormalAccount(int id, char* name, int balance) {
+	cout << "[Normal Account Opening]" << endl;
 	cout << "Account ID: ";
 	cin >> id;
 	cout << "Name: ";
 	cin >> name;
 	cout << "Deposit amount: ";
 	cin >> balance;
-	accArr[accNum++] = new Account(id, name, balance);
+	int interestRate;
+	cout << "Interest Rate: ";
+	cin >> interestRate;
+	accArr[accNum++] = new NormalAccount(id, name, balance, interestRate);
+}
+//신용신뢰계좌 개설
+void AccountHandler::MakeHighCreditAccount(int id, char* name, int balance) {
+	cout << "[High Credit Account Opening]" << endl;
+	cout << "Account ID: ";
+	cin >> id;
+	cout << "Name: ";
+	cin >> name;
+	cout << "Deposit amount: ";
+	cin >> balance;
+	int interestRate;
+	cout << "Interest Rate: ";
+	cin >> interestRate;
+	int trustLevel;
+	cout << "Trust Level(1toA, 2toB, 3toC): ";
+	cin >> trustLevel;
+	accArr[accNum++] = new HighCreditAccount(id, name, balance, interestRate, trustLevel);
 }
 
 //입금
 void AccountHandler::Deposit() {
 	int searchID = 0; //입금 계좌 ID
 	int changeAmount = 0; //추가 입금액
+	int interestRate = 0; //이자율
 
 	cout << "[Deposit]" << endl;
 	cout << "Account ID: ";
@@ -126,7 +206,8 @@ void AccountHandler::Deposit() {
 		if (searchID == accArr[i]->GetAccID()) {
 			cout << "Deposit amount: ";
 			cin >> changeAmount;
-			accArr[i]->Deposit(changeAmount);
+			accArr[i]->GetInterRate();
+			accArr[i]->Deposit(changeAmount, interestRate);
 			cout << "Deposit Complete" << endl;
 			return;
 		}
@@ -171,7 +252,6 @@ AccountHandler::~AccountHandler() {
 	for (int i = 0; i < accNum; i++)
 		delete accArr[i];
 }
-
 
 int main(void) {
 	AccountHandler accHan;
