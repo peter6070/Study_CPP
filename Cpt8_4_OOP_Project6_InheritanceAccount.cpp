@@ -18,7 +18,7 @@ public:
 	Account(const Account& copy);
 
 	int GetAccID() const;
-	void Deposit(int money, int rate);
+	virtual void Deposit(int money);
 	int Withdraw(int money);
 	void ShowAccInfo() const;
 	~Account();
@@ -43,8 +43,8 @@ Account::Account(const Account& copy)
 int Account::GetAccID() const {
 	return id;
 }
-void Account::Deposit(int money, int rate) {
-	balance += (money+(int)(money*rate*0.01));
+void Account::Deposit(int money) {
+	balance += money;
 }
 int Account::Withdraw(int money) {
 	if (balance < money)
@@ -97,8 +97,8 @@ public:
 	void SetInterRate(int rate) {
 		interestRate += rate;
 	}
-	int GetInterRate() const {
-		return interestRate;
+	virtual void Deposit(int money) {
+		Account::Deposit(money + (int)(money * interestRate * 0.01));
 	}
 };
 
@@ -130,7 +130,7 @@ public:
 
 //메뉴 출력
 void AccountHandler::PrintMenu() const {
-	cout << "----Menu----" << endl;
+	cout << "-------Menu-------" << endl;
 	cout << "1. Account opening" << endl;
 	cout << "2. Deposit" << endl;
 	cout << "3. WithDrawal" << endl;
@@ -146,7 +146,7 @@ void AccountHandler::MakeAccount() {
 	int balance=0;
 	int selectAccount;
 	cout << "[Select Account Type]" << endl;
-	cout << "1. Normal Account  2. High Credit Account";
+	cout << "1. Normal Account  2. High Credit Account: ";
 	cin >> selectAccount;
 	switch (selectAccount) {
 	case 1: 
@@ -197,7 +197,6 @@ void AccountHandler::MakeHighCreditAccount(int id, char* name, int balance) {
 void AccountHandler::Deposit() {
 	int searchID = 0; //입금 계좌 ID
 	int changeAmount = 0; //추가 입금액
-	int interestRate = 0; //이자율
 
 	cout << "[Deposit]" << endl;
 	cout << "Account ID: ";
@@ -206,8 +205,7 @@ void AccountHandler::Deposit() {
 		if (searchID == accArr[i]->GetAccID()) {
 			cout << "Deposit amount: ";
 			cin >> changeAmount;
-			accArr[i]->GetInterRate();
-			accArr[i]->Deposit(changeAmount, interestRate);
+			accArr[i]->Deposit(changeAmount);
 			cout << "Deposit Complete" << endl;
 			return;
 		}
