@@ -22,6 +22,13 @@ public:
 		ypos = -ypos;
 		return *this;
 	}
+	//문제2. ~ 부호 연산자 오버로딩
+	Point& operator~() {
+		int temp = xpos;
+		xpos = ypos;
+		ypos = temp;
+		return *this;
+	}
 };
 
 Point& operator--(Point& ref) {
@@ -29,6 +36,7 @@ Point& operator--(Point& ref) {
 	ref.ypos -= 1;
 	return ref;
 }
+
 
 int main(void) {
 	//Point pos(1, 2);
@@ -43,9 +51,14 @@ int main(void) {
 	//--(--pos);
 	//pos.ShowPosition();
 
-	//문제1. - 부호 연산자 오버로딩
+	////문제1. - 부호 연산자 오버로딩
+	//Point pos1(1, 2);
+	//Point pos2 = -pos1;
+	//pos2.ShowPosition();
+
+	//문제2. ~ 부호 연산자 오버로딩
 	Point pos1(1, 2);
-	Point pos2 = -pos1;
+	Point pos2 = ~pos1;
 	pos2.ShowPosition();
 
 
