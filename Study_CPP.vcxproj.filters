@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt10_2_Unary_Operator.cpp">
+    <ClCompile Include="Cpt10_3_Commutation_Operation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
