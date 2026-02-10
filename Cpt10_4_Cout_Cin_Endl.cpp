@@ -53,6 +53,8 @@ using namespace std;
 //	ostream cout; //변수명(ostream 클래스 기능을 가진 객체를 만들고 이름을 cout이라고 짓겠다
 //}
 
+//-------------------------------------------------
+// << 연산자 오버로딩
 class Point {
 private:
 	int xpos, ypos;
@@ -62,12 +64,18 @@ public:
 		cout << '[' << xpos << ", " << ypos << ']'<<endl;
 	}
 	friend ostream& operator<<(ostream&, const Point&);
+	friend istream& operator>>(istream&, Point&);
 };
 
 //전역함수이기 때문에 operator<<(os, pos) 형태로 해석
 ostream& operator<<(ostream& os, const Point& pos) { //ostream형의 os, Point형의 pos 객체를 받음
 	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
 	return os;
+}
+
+istream& operator>>(istream& is, Point& pos) { //pos 값을 수정해야 하므로 const 제거
+	is >> pos.xpos >> pos.ypos;
+	return is;
 }
 
 
@@ -87,11 +95,23 @@ int main(void) {
 	//-> (((((cout << 3.14) << endl) << 123) << endl) << 'a') << endl;
 
 	//-------------------------------------------------
-	Point pos1(1, 3);
-	cout << pos1; //-> operator.(cout, pos1)
-	Point pos2(101, 303);
-	cout << pos2;
+	// << 연산자 오버로딩
+	//Point pos1(1, 3);
+	//cout << pos1; //-> operator.(cout, pos1)
+	//Point pos2(101, 303);
+	//cout << pos2;
 
+	//-------------------------------------------------
+	// 문제1. >> 연산자 오버로딩
+	Point pos1;
+	cout << "Enter in x,y coordinate order: ";
+	cin >> pos1; //operator.(cin, pos1);
+	cout << pos1;
+
+	Point pos2;
+	cout << "Enter in x,y coordinate order: ";
+	cin >> pos2; //operator.(cin, pos2);
+	cout << pos2;
 
 	return 0;
 }
