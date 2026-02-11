@@ -30,6 +30,36 @@ using namespace std;
 //		return *this;
 //	}
 //};
+//---------------------------------------------------------
+
+class Person {
+	char* name;
+	int age;
+public:
+	Person(const char* myname, int myage) {
+		int len = strlen(myname) + 1;
+		name = new char[len];
+		strcpy_s(name, len, myname);
+		age = myage;
+	}
+	void ShowPersonInfo() const {
+		cout << "Name: " << name << endl;
+		cout << "Age: " << age << endl;
+	}
+	~Person() {
+		delete[] name;
+		cout << "Called Destructor" << endl;
+	}
+	//대입 연산자(깊은 복사를 하기 위함)
+	Person& operator=(const Person& ref) {
+		delete[] name; //메모리 누수를 막기 위한 메모리 해제 연산
+		int len = strlen(ref.name) + 1;
+		name = new char[len];
+		strcpy_s(name, len, ref.name);
+		age = ref.age;
+		return *this;
+	}
+};
 
 int main(void) {
 	//First fsrc(111, 222);
@@ -51,7 +81,12 @@ int main(void) {
 	//sob1.ShowData();
 	//sob2.ShowData();
 	//---------------------------------------------------------
+	Person man1("Lee", 29);
+	Person man2("Yoon", 22);
+	man2 = man1; //얕은 복사로 인해 소멸자가 한번만 실행됨(대입 연산자 정의 안했을 경우)
 
+	man1.ShowPersonInfo();
+	man2.ShowPersonInfo();
 
 
 	return 0;
