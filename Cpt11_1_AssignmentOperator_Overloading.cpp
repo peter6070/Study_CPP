@@ -123,10 +123,10 @@ public:
 	Police& operator=(const Police& ref) {
 		cout << "Police& operator=(const Police& ref)" << endl;
 		if(pistol!=NULL)
-			delete[] pistol;
+			delete pistol;
 
 		if (ref.pistol != NULL)
-			pistol = new Gun(*(ref.pistol));
+			pistol = new Gun(*(ref.pistol)); //ref.pistol이 가리키고 있는 주소 -> 복사되는 Gun 객체의 pistol 개수
 		else
 			pistol = NULL;
 
