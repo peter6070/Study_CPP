@@ -83,63 +83,158 @@ using namespace std;
 //};
 
 //문제1. 클래스 간 깊은 복사(대입 연산자, 복사 생성자 정의)
-class Gun {
-private:
-	int bullet;
-public:
-	Gun(int bnum) : bullet(bnum) {}
-	void Shot() {
-		cout << "Bang!" << endl;
-		bullet--;
-	}
-};
+//class Gun {
+//private:
+//	int bullet;
+//public:
+//	Gun(int bnum) : bullet(bnum) {}
+//	void Shot() {
+//		cout << "Bang!" << endl;
+//		bullet--;
+//	}
+//};
+//
+//class Police {
+//private:
+//	int handcuffs;
+//	Gun* pistol;
+//public:
+//	Police(int bnum, int bcuff) : handcuffs(bnum) {
+//		if (bnum > 0)
+//			pistol = new Gun(bnum);
+//		else
+//			pistol = NULL;
+//	}
+//	void PutHandcuff() {
+//		cout << "SNAP!" << endl;
+//		handcuffs--;
+//	}
+//	void Shot() {
+//		if (pistol == NULL)
+//			cout << "No Armo!" << endl;
+//		else
+//			pistol->Shot();
+//	}
+//	~Police() {
+//		if (pistol != NULL)
+//			delete pistol;
+//	}
+//	//대입 연산자
+//	Police& operator=(const Police& ref) {
+//		cout << "Police& operator=(const Police& ref)" << endl;
+//		if(pistol!=NULL)
+//			delete pistol;
+//
+//		if (ref.pistol != NULL)
+//			pistol = new Gun(*(ref.pistol)); //ref.pistol이 가리키고 있는 주소 -> 복사되는 Gun 객체의 pistol 개수
+//		else
+//			pistol = NULL;
+//
+//		handcuffs = ref.handcuffs;
+//		return *this;
+//	}
+//	//복사 생성자
+//	Police(const Police& copy) : handcuffs(copy.handcuffs) {
+//		cout << "Police(const Police& copy)" << endl;
+//		if (copy.pistol != NULL)
+//			pistol = new Gun(*(copy.pistol));
+//		else
+//			pistol = NULL;
+//	}
+//};
+//---------------------------------------------------------
 
-class Police {
+//문제2. Book 클래스 깊은복사
+class Book {
 private:
-	int handcuffs;
-	Gun* pistol;
+	char* title;
+	char* isbn; //국제표준도서번호
+	int price;
 public:
-	Police(int bnum, int bcuff) : handcuffs(bnum) {
-		if (bnum > 0)
-			pistol = new Gun(bnum);
-		else
-			pistol = NULL;
+	Book(const char* _title, const char* _isbn, int _price)
+		: price(_price) {
+		int len = strlen(_title) + 1;
+		title = new char[len];
+		strcpy_s(title, len, _title);
+
+		len = strlen(_isbn) + 1;
+		isbn = new char[len];
+		strcpy_s(isbn, len, _isbn);
 	}
-	void PutHandcuff() {
-		cout << "SNAP!" << endl;
-		handcuffs--;
+	void ShowBookInfo() {
+		cout << "Title: " << title << endl;
+		cout << "ISBN: " << isbn << endl;
+		cout << "Price: " << price << endl;
 	}
-	void Shot() {
-		if (pistol == NULL)
-			cout << "No Armo!" << endl;
-		else
-			pistol->Shot();
-	}
-	~Police() {
-		if (pistol != NULL)
-			delete pistol;
+	~Book() {
+		delete[] title;
+		delete[] isbn;
 	}
 	//대입 연산자
-	Police& operator=(const Police& ref) {
-		cout << "Police& operator=(const Police& ref)" << endl;
-		if(pistol!=NULL)
-			delete pistol;
+	Book& operator=(const Book& ref) {
+		delete title;
+		delete isbn;
 
-		if (ref.pistol != NULL)
-			pistol = new Gun(*(ref.pistol)); //ref.pistol이 가리키고 있는 주소 -> 복사되는 Gun 객체의 pistol 개수
-		else
-			pistol = NULL;
+		int len = strlen(ref.title) + 1;
+		title = new char[len];
+		strcpy_s(title, len, ref.title);
 
-		handcuffs = ref.handcuffs;
+		len = strlen(ref.isbn) + 1;
+		isbn = new char[len];
+		strcpy_s(isbn, len, ref.isbn);
+
+		price = ref.price;
 		return *this;
 	}
 	//복사 생성자
-	Police(const Police& copy) : handcuffs(copy.handcuffs) {
-		cout << "Police(const Police& copy)" << endl;
-		if (copy.pistol != NULL)
-			pistol = new Gun(*(copy.pistol));
-		else
-			pistol = NULL;
+	Book(const Book& ref) :price(ref.price) {
+		delete []title;
+		delete []isbn;
+
+		int len = strlen(ref.title) + 1;
+		title = new char[len];
+		strcpy_s(title, len, ref.title);
+
+		len = strlen(ref.isbn) + 1;
+		isbn = new char[len];
+		strcpy_s(isbn, len, ref.isbn);
+	}
+};
+
+class EBook : public Book {
+private:
+	char* DRMKey; //보안관련 키
+public:
+	EBook(const char* _title, const char* _isbn, int _price, const char* _DRMKey)
+		: Book(_title, _isbn, _price) {
+		int len = strlen(_DRMKey) + 1;
+		DRMKey = new char[len];
+		strcpy_s(DRMKey, len, _DRMKey);
+	}
+	void ShowEBookInfo() {
+		ShowBookInfo();
+		cout << "DRMKey: " << DRMKey << endl;
+	}
+	~EBook() {
+		delete[] DRMKey;
+	}
+	//대입 연산자
+	EBook& operator=(const EBook& ref) {
+		Book::operator=(ref);
+
+		delete[] DRMKey;
+
+		int len = strlen(ref.DRMKey) + 1;
+		DRMKey = new char[len];
+		strcpy_s(DRMKey, len, ref.DRMKey);
+
+		return *this;
+	}
+	//복사 생성자
+	EBook(const EBook& ref) : Book(ref){ //Book 에 기본 생성자가 없으므로 ref 객체를 매개변수로 Book 복사생성자 호출
+		int len = strlen(ref.DRMKey) + 1;
+		DRMKey = new char[len];
+		strcpy_s(DRMKey, len, ref.DRMKey);
 	}
 };
 
@@ -177,15 +272,26 @@ int main(void) {
 	//---------------------------------------------------------
 	// 
 	//문제1. 클래스 간 깊은 복사(대입 연산자, 복사 생성자 정의)
-	Police pol1(5, 2);
-	Police pol2 = pol1; //복사 생성자 호출
-	pol2.PutHandcuff();
-	pol2.Shot();
+	//Police pol1(5, 2);
+	//Police pol2 = pol1; //복사 생성자 호출
+	//pol2.PutHandcuff();
+	//pol2.Shot();
 
-	Police pol3(2, 4);
-	pol3 = pol1; //대입 연산자 호출
-	pol3.PutHandcuff();
-	pol3.Shot();
+	//Police pol3(2, 4);
+	//pol3 = pol1; //대입 연산자 호출
+	//pol3.PutHandcuff();
+	//pol3.Shot();
+	//---------------------------------------------------------
+
+	//문제2. Book 클래스 깊은복사
+	//대입 연산자
+	EBook ebook1("Good C++ ebook", "555-12345-890-1", 10000, "fdx9wi8ikw");
+	EBook ebook2("null", "null", 0, "null");
+	ebook2 = ebook1;
+	ebook2.ShowEBookInfo();
+	cout << endl;
+	EBook ebook3 = ebook1;
+	ebook3.ShowEBookInfo();
 
 	return 0;
 }
