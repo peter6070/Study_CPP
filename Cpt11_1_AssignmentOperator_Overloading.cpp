@@ -145,98 +145,131 @@ using namespace std;
 //---------------------------------------------------------
 
 //문제2. Book 클래스 깊은복사
-class Book {
+//class Book {
+//private:
+//	char* title;
+//	char* isbn; //국제표준도서번호
+//	int price;
+//public:
+//	Book(const char* _title, const char* _isbn, int _price)
+//		: price(_price) {
+//		int len = strlen(_title) + 1;
+//		title = new char[len];
+//		strcpy_s(title, len, _title);
+//
+//		len = strlen(_isbn) + 1;
+//		isbn = new char[len];
+//		strcpy_s(isbn, len, _isbn);
+//	}
+//	void ShowBookInfo() {
+//		cout << "Title: " << title << endl;
+//		cout << "ISBN: " << isbn << endl;
+//		cout << "Price: " << price << endl;
+//	}
+//	~Book() {
+//		delete[] title;
+//		delete[] isbn;
+//	}
+//	//대입 연산자
+//	Book& operator=(const Book& ref) {
+//		delete title;
+//		delete isbn;
+//
+//		int len = strlen(ref.title) + 1;
+//		title = new char[len];
+//		strcpy_s(title, len, ref.title);
+//
+//		len = strlen(ref.isbn) + 1;
+//		isbn = new char[len];
+//		strcpy_s(isbn, len, ref.isbn);
+//
+//		price = ref.price;
+//		return *this;
+//	}
+//	//복사 생성자
+//	Book(const Book& ref) :price(ref.price) {
+//		delete []title;
+//		delete []isbn;
+//
+//		int len = strlen(ref.title) + 1;
+//		title = new char[len];
+//		strcpy_s(title, len, ref.title);
+//
+//		len = strlen(ref.isbn) + 1;
+//		isbn = new char[len];
+//		strcpy_s(isbn, len, ref.isbn);
+//	}
+//};
+//
+//class EBook : public Book {
+//private:
+//	char* DRMKey; //보안관련 키
+//public:
+//	EBook(const char* _title, const char* _isbn, int _price, const char* _DRMKey)
+//		: Book(_title, _isbn, _price) {
+//		int len = strlen(_DRMKey) + 1;
+//		DRMKey = new char[len];
+//		strcpy_s(DRMKey, len, _DRMKey);
+//	}
+//	void ShowEBookInfo() {
+//		ShowBookInfo();
+//		cout << "DRMKey: " << DRMKey << endl;
+//	}
+//	~EBook() {
+//		delete[] DRMKey;
+//	}
+//	//대입 연산자
+//	EBook& operator=(const EBook& ref) {
+//		Book::operator=(ref);
+//
+//		delete[] DRMKey;
+//
+//		int len = strlen(ref.DRMKey) + 1;
+//		DRMKey = new char[len];
+//		strcpy_s(DRMKey, len, ref.DRMKey);
+//
+//		return *this;
+//	}
+//	//복사 생성자
+//	EBook(const EBook& ref) : Book(ref){ //Book 에 기본 생성자가 없으므로 ref 객체를 매개변수로 Book 복사생성자 호출
+//		int len = strlen(ref.DRMKey) + 1;
+//		DRMKey = new char[len];
+//		strcpy_s(DRMKey, len, ref.DRMKey);
+//	}
+//};
+//---------------------------------------------------------
+
+class AAA {
 private:
-	char* title;
-	char* isbn; //국제표준도서번호
-	int price;
+	int num;
 public:
-	Book(const char* _title, const char* _isbn, int _price)
-		: price(_price) {
-		int len = strlen(_title) + 1;
-		title = new char[len];
-		strcpy_s(title, len, _title);
-
-		len = strlen(_isbn) + 1;
-		isbn = new char[len];
-		strcpy_s(isbn, len, _isbn);
+	AAA(int n = 0) :num(n) {
+		cout << "AAA(int n=0)" << endl;
 	}
-	void ShowBookInfo() {
-		cout << "Title: " << title << endl;
-		cout << "ISBN: " << isbn << endl;
-		cout << "Price: " << price << endl;
+	AAA(const AAA& ref) :num(ref.num) {
+		cout << "AAA(const AAA& ref)" << endl;
 	}
-	~Book() {
-		delete[] title;
-		delete[] isbn;
-	}
-	//대입 연산자
-	Book& operator=(const Book& ref) {
-		delete title;
-		delete isbn;
-
-		int len = strlen(ref.title) + 1;
-		title = new char[len];
-		strcpy_s(title, len, ref.title);
-
-		len = strlen(ref.isbn) + 1;
-		isbn = new char[len];
-		strcpy_s(isbn, len, ref.isbn);
-
-		price = ref.price;
+	AAA& operator=(const AAA& ref) {
+		num = ref.num;
+		cout << "operator=(const AAA& ref)" << endl;
 		return *this;
-	}
-	//복사 생성자
-	Book(const Book& ref) :price(ref.price) {
-		delete []title;
-		delete []isbn;
-
-		int len = strlen(ref.title) + 1;
-		title = new char[len];
-		strcpy_s(title, len, ref.title);
-
-		len = strlen(ref.isbn) + 1;
-		isbn = new char[len];
-		strcpy_s(isbn, len, ref.isbn);
 	}
 };
 
-class EBook : public Book {
+class BBB {
 private:
-	char* DRMKey; //보안관련 키
+	AAA mem;
 public:
-	EBook(const char* _title, const char* _isbn, int _price, const char* _DRMKey)
-		: Book(_title, _isbn, _price) {
-		int len = strlen(_DRMKey) + 1;
-		DRMKey = new char[len];
-		strcpy_s(DRMKey, len, _DRMKey);
-	}
-	void ShowEBookInfo() {
-		ShowBookInfo();
-		cout << "DRMKey: " << DRMKey << endl;
-	}
-	~EBook() {
-		delete[] DRMKey;
-	}
-	//대입 연산자
-	EBook& operator=(const EBook& ref) {
-		Book::operator=(ref);
-
-		delete[] DRMKey;
-
-		int len = strlen(ref.DRMKey) + 1;
-		DRMKey = new char[len];
-		strcpy_s(DRMKey, len, ref.DRMKey);
-
-		return *this;
-	}
-	//복사 생성자
-	EBook(const EBook& ref) : Book(ref){ //Book 에 기본 생성자가 없으므로 ref 객체를 매개변수로 Book 복사생성자 호출
-		int len = strlen(ref.DRMKey) + 1;
-		DRMKey = new char[len];
-		strcpy_s(DRMKey, len, ref.DRMKey);
-	}
+	BBB(const AAA& ref):mem(ref){} //이니셜라이저를 이용한 멤버 초기화
 };
+
+class CCC {
+private:
+	AAA mem;
+public:
+	CCC(const AAA& ref) { mem = ref; } //대입연산을 이용한 멤버 초기화
+};
+
 
 int main(void) {
 	//First fsrc(111, 222);
@@ -285,13 +318,20 @@ int main(void) {
 
 	//문제2. Book 클래스 깊은복사
 	//대입 연산자
-	EBook ebook1("Good C++ ebook", "555-12345-890-1", 10000, "fdx9wi8ikw");
+	/*EBook ebook1("Good C++ ebook", "555-12345-890-1", 10000, "fdx9wi8ikw");
 	EBook ebook2("null", "null", 0, "null");
 	ebook2 = ebook1;
 	ebook2.ShowEBookInfo();
 	cout << endl;
 	EBook ebook3 = ebook1;
-	ebook3.ShowEBookInfo();
+	ebook3.ShowEBookInfo();*/
+	//---------------------------------------------------------
+
+	AAA obj1(12);
+	cout << "***********************" << endl;
+	BBB obj2(obj1);
+	cout << "***********************" << endl;
+	CCC obj3(obj1);
 
 	return 0;
 }
