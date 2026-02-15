@@ -57,6 +57,11 @@ ostream& operator<<(ostream& os, const Point& pos) {
 	return os;
 }
 
+ostream& operator<<(ostream& os, const Point* pos) {
+	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
+	return os;
+}
+
 //class BoundCheckIntArray {
 //private:
 //	Point* arr;
