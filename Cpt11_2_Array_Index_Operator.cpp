@@ -44,58 +44,59 @@ using namespace std;
 //		cout << ref[idx] << endl; //const 참조자를 이용한 연산이므로, int& operator[](int idx) const 함수 호출
 //}
 
-//class Point {
-//private:
-//	int xpos, ypos;
-//public:
-//	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
-//	friend ostream& operator<<(ostream& os, const Point& pos);
-//};
-//
-//ostream& operator<<(ostream& os, const Point& pos) {
-//	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
-//	return os;
-//}
-//
-//ostream& operator<<(ostream& os, const Point* pos) {
-//	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
-//	return os;
-//}
+class Point {
+private:
+	int xpos, ypos;
+public:
+	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
+	friend ostream& operator<<(ostream& os, const Point& pos);
+};
 
-////class BoundCheckIntArray {
-////private:
-////	Point* arr;
-////	int arrlen;
-////	BoundCheckIntArray(const BoundCheckIntArray& arr) {}
-////	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
-////public:
-////	BoundCheckIntArray(int len) : arrlen(len) {
-////		arr = new Point[len]; //Point 객체로 이뤄진 배열 생성
-////		// 인자를 받지 않는 void 생성자의 호출을 통해 배열요소를 이루는 객체가 생성되므로
-////		// Point(int x=0, int y=0) 이 생성자에 설정된 디폴트 값에 의해 객체의 모든 멤버가 0으로 초기화됨
-////	}
-////	//배열 인덱스 연산자
-////	Point& operator[](int idx) {
-////		if (idx < 0 || idx >= arrlen) {
-////			cout << "Array index out of bound exception" << endl;
-////			exit(1);
-////		}
-////		return arr[idx];
-////	}
-////	Point& operator[](int idx) const {
-////		if (idx < 0 || idx >= arrlen) {
-////			cout << "Array index out of bound exception" << endl;
-////			exit(1);
-////		}
-////		return arr[idx];
-////	}
-////	int GetArrLen() const { return arrlen; }
-////	~BoundCheckIntArray() {
-////		delete[]arr;
-////	}
-////};
-//
-//typedef Point* POINT_PTR;
+ostream& operator<<(ostream& os, const Point& pos) {
+	//os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+	os << pos.xpos;
+	return os;
+}
+
+ostream& operator<<(ostream& os, const Point* pos) {
+	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
+	return os;
+}
+
+class BoundCheckIntArray {
+private:
+	Point* arr;
+	int arrlen;
+	BoundCheckIntArray(const BoundCheckIntArray& arr) {}
+	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
+public:
+	BoundCheckIntArray(int len) : arrlen(len) {
+		arr = new Point[len]; //Point 객체로 이뤄진 배열 생성
+		// 인자를 받지 않는 void 생성자의 호출을 통해 배열요소를 이루는 객체가 생성되므로
+		// Point(int x=0, int y=0) 이 생성자에 설정된 디폴트 값에 의해 객체의 모든 멤버가 0으로 초기화됨
+	}
+	//배열 인덱스 연산자
+	Point& operator[](int idx) {
+		if (idx < 0 || idx >= arrlen) {
+			cout << "Array index out of bound exception" << endl;
+			exit(1);
+		}
+		return arr[idx];
+	}
+	Point& operator[](int idx) const {
+		if (idx < 0 || idx >= arrlen) {
+			cout << "Array index out of bound exception" << endl;
+			exit(1);
+		}
+		return arr[idx];
+	}
+	int GetArrLen() const { return arrlen; }
+	~BoundCheckIntArray() {
+		delete[]arr;
+	}
+};
+
+typedef Point* POINT_PTR;
 //Point 포인터 형을 의미하는 POINT_PTR 정의
 // 저장의 대상, 연산의 주 대상이 포인터인 경우, 별도의 자료형을 정의하는 것이 좋음
 
@@ -134,37 +135,30 @@ using namespace std;
 //문제2. 2차원 배열 클래스
 class BoundCheck2DIntArray {
 private:
-	int Harrlen, Rarrlen;
-	int** arr;
-	BoundCheck2DIntArray(const BoundCheck2DIntArray& arr) {}
-	BoundCheck2DIntArray& operator=(const BoundCheck2DIntArray& arr) {}
+	BoundCheckIntArray** rows; // 1차원 배열 객체들을 가리킬 포인터
+	int rowCount;
 public:
-	BoundCheck2DIntArray(int x, int y) : Harrlen(x), Rarrlen(y) {
-		arr = new int*[x];
-		for (int i = 0; i < x; i++) {
-			arr[i] = new int[y];
-		}
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < x; j++) {
-				arr[i][j] = 0;
-			}
+	// 생성자: 행(Row) 개수만큼 1차원 배열 객체를 쫘르륵 만듭니다.
+	BoundCheck2DIntArray(int r, int c) : rowCount(r) {
+		rows = new BoundCheckIntArray *[r]; // 1. 포인터 배열 생성
+		for (int i = 0; i < r; i++) {
+			rows[i] = new BoundCheckIntArray(c); // 2. 각 줄마다 실제 1차원 배열 생성
 		}
 	}
-	int& operator[](int idx) {
-		if (idx < 0 || idx >= Harrlen || idx >= Rarrlen) {
-			cout << "Array index out of bound exception" << endl;
+	//'1차원 배열 객체 자체'를 반환해야 합니다.
+	BoundCheckIntArray& operator[](int idx) {
+		if (idx < 0 || idx >= rowCount) {
+			cout << "Row Index Out of Bound" << endl;
 			exit(1);
 		}
-		return *arr[idx];
+		return *(rows[idx]); // 해당 번째의 "1차원 배열 객체(원본)"을 던져줍니다.
 	}
-	int& operator[](int& idx) {
-		
+
+	~BoundCheck2DIntArray() {
+		for (int i = 0; i < rowCount; i++)
+			delete rows[i];
+		delete[] rows;
 	}
-	int GetHArrLen() const { return Harrlen; }
-	int GetRArrLen() const { return Rarrlen; }
-	/*~BoundCheck2DIntArray() {
-		delete[] arr;
-	}*/
 };
 
 int main(void) {
@@ -207,13 +201,13 @@ int main(void) {
 
 	//문제2. 2차원 배열 클래스
 	BoundCheck2DIntArray arr2d(3, 4);
-	for (int n = 0; n < arr2d.GetHArrLen(); n++) {
-		for (int m = 0; m < arr2d.GetRArrLen(); m++)
+	for (int n = 0; n < 3; n++) {
+		for (int m = 0; m < 4; m++)
 			arr2d[n][m] = n + m;
 	}
 
-	for (int n = 0; n < arr2d.GetHArrLen(); n++) {
-		for (int m = 0; m < arr2d.GetRArrLen(); m++)
+	for (int n = 0; n < 3; n++) {
+		for (int m = 0; m < 4; m++)
 			cout << arr2d[n][m] << ' '; //-> (arr2d.operator[](n))[m] -> ((return).operator[])(m)
 		cout << endl;
 	}
