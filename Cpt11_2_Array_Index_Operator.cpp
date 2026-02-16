@@ -44,45 +44,80 @@ using namespace std;
 //		cout << ref[idx] << endl; //const 참조자를 이용한 연산이므로, int& operator[](int idx) const 함수 호출
 //}
 
-class Point {
-private:
-	int xpos, ypos;
-public:
-	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
-	friend ostream& operator<<(ostream& os, const Point& pos);
-};
-
-ostream& operator<<(ostream& os, const Point& pos) {
-	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
-	return os;
-}
-
-ostream& operator<<(ostream& os, const Point* pos) {
-	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
-	return os;
-}
-
-//class BoundCheckIntArray {
+//class Point {
 //private:
-//	Point* arr;
-//	int arrlen;
-//	BoundCheckIntArray(const BoundCheckIntArray& arr) {}
-//	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
+//	int xpos, ypos;
 //public:
-//	BoundCheckIntArray(int len) : arrlen(len) {
-//		arr = new Point[len]; //Point 객체로 이뤄진 배열 생성
-//		// 인자를 받지 않는 void 생성자의 호출을 통해 배열요소를 이루는 객체가 생성되므로
-//		// Point(int x=0, int y=0) 이 생성자에 설정된 디폴트 값에 의해 객체의 모든 멤버가 0으로 초기화됨
+//	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
+//	friend ostream& operator<<(ostream& os, const Point& pos);
+//};
+//
+//ostream& operator<<(ostream& os, const Point& pos) {
+//	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+//	return os;
+//}
+//
+//ostream& operator<<(ostream& os, const Point* pos) {
+//	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
+//	return os;
+//}
+
+////class BoundCheckIntArray {
+////private:
+////	Point* arr;
+////	int arrlen;
+////	BoundCheckIntArray(const BoundCheckIntArray& arr) {}
+////	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
+////public:
+////	BoundCheckIntArray(int len) : arrlen(len) {
+////		arr = new Point[len]; //Point 객체로 이뤄진 배열 생성
+////		// 인자를 받지 않는 void 생성자의 호출을 통해 배열요소를 이루는 객체가 생성되므로
+////		// Point(int x=0, int y=0) 이 생성자에 설정된 디폴트 값에 의해 객체의 모든 멤버가 0으로 초기화됨
+////	}
+////	//배열 인덱스 연산자
+////	Point& operator[](int idx) {
+////		if (idx < 0 || idx >= arrlen) {
+////			cout << "Array index out of bound exception" << endl;
+////			exit(1);
+////		}
+////		return arr[idx];
+////	}
+////	Point& operator[](int idx) const {
+////		if (idx < 0 || idx >= arrlen) {
+////			cout << "Array index out of bound exception" << endl;
+////			exit(1);
+////		}
+////		return arr[idx];
+////	}
+////	int GetArrLen() const { return arrlen; }
+////	~BoundCheckIntArray() {
+////		delete[]arr;
+////	}
+////};
+//
+//typedef Point* POINT_PTR;
+//Point 포인터 형을 의미하는 POINT_PTR 정의
+// 저장의 대상, 연산의 주 대상이 포인터인 경우, 별도의 자료형을 정의하는 것이 좋음
+
+//class BoundCheckPointPtrArray {
+//private:
+//	POINT_PTR* arr;
+//	int arrlen;
+//	BoundCheckPointPtrArray(const BoundCheckPointPtrArray& arr) {}
+//	BoundCheckPointPtrArray& operator=(const BoundCheckPointPtrArray& arr) {}
+//public:
+//	BoundCheckPointPtrArray(int len) : arrlen(len) {
+//		arr = new POINT_PTR[len];
 //	}
 //	//배열 인덱스 연산자
-//	Point& operator[](int idx) {
+//	POINT_PTR& operator[](int idx) {
 //		if (idx < 0 || idx >= arrlen) {
 //			cout << "Array index out of bound exception" << endl;
 //			exit(1);
 //		}
 //		return arr[idx];
 //	}
-//	Point& operator[](int idx) const {
+//	POINT_PTR& operator[](int idx) const {
 //		if (idx < 0 || idx >= arrlen) {
 //			cout << "Array index out of bound exception" << endl;
 //			exit(1);
@@ -90,44 +125,46 @@ ostream& operator<<(ostream& os, const Point* pos) {
 //		return arr[idx];
 //	}
 //	int GetArrLen() const { return arrlen; }
-//	~BoundCheckIntArray() {
+//	~BoundCheckPointPtrArray() {
 //		delete[]arr;
 //	}
 //};
 
-typedef Point* POINT_PTR;
-//Point 포인터 형을 의미하는 POINT_PTR 정의
-// 저장의 대상, 연산의 주 대상이 포인터인 경우, 별도의 자료형을 정의하는 것이 좋음
 
-class BoundCheckPointPtrArray {
+//문제2. 2차원 배열 클래스
+class BoundCheck2DIntArray {
 private:
-	POINT_PTR* arr;
-	int arrlen;
-	BoundCheckPointPtrArray(const BoundCheckPointPtrArray& arr) {}
-	BoundCheckPointPtrArray& operator=(const BoundCheckPointPtrArray& arr) {}
+	int Harrlen, Rarrlen;
+	int** arr;
+	BoundCheck2DIntArray(const BoundCheck2DIntArray& arr) {}
+	BoundCheck2DIntArray& operator=(const BoundCheck2DIntArray& arr) {}
 public:
-	BoundCheckPointPtrArray(int len) : arrlen(len) {
-		arr = new POINT_PTR[len];
+	BoundCheck2DIntArray(int x, int y) : Harrlen(x), Rarrlen(y) {
+		arr = new int*[x];
+		for (int i = 0; i < x; i++) {
+			arr[i] = new int[y];
+		}
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < x; j++) {
+				arr[i][j] = 0;
+			}
+		}
 	}
-	//배열 인덱스 연산자
-	POINT_PTR& operator[](int idx) {
-		if (idx < 0 || idx >= arrlen) {
+	int& operator[](int idx) {
+		if (idx < 0 || idx >= Harrlen || idx >= Rarrlen) {
 			cout << "Array index out of bound exception" << endl;
 			exit(1);
 		}
-		return arr[idx];
+		return *arr[idx];
 	}
-	POINT_PTR& operator[](int idx) const {
-		if (idx < 0 || idx >= arrlen) {
-			cout << "Array index out of bound exception" << endl;
-			exit(1);
-		}
-		return arr[idx];
+	int& operator[](int& idx) {
+		
 	}
-	int GetArrLen() const { return arrlen; }
-	~BoundCheckPointPtrArray() {
-		delete[]arr;
-	}
+	int GetHArrLen() const { return Harrlen; }
+	int GetRArrLen() const { return Rarrlen; }
+	/*~BoundCheck2DIntArray() {
+		delete[] arr;
+	}*/
 };
 
 int main(void) {
@@ -136,37 +173,50 @@ int main(void) {
 	//	arr[i] = (i + 1) * 11; //const로 선언되지 않은 arr을 이용한 연산이므로 int& operator[](int idx) 함수 호출
 	/*for(int i=0;i<6;i++)
 		cout<<arr[i]<<endl;*/
-	//BoundCheckIntArray cpy = arr; //대입연산자를 private으로 선언하여 대입 불가
-	//ShowAllData(arr);
+		//BoundCheckIntArray cpy = arr; //대입연산자를 private으로 선언하여 대입 불가
+		//ShowAllData(arr);
 
-	//객체 저장 배열 클래스
-	//BoundCheckIntArray arr(3);
-	//arr[0] = Point(3, 4);
-	//arr[1] = Point(5, 6);
-	//arr[2] = Point(7, 8);
-	//// 임시 객체를 생성해서 배열요소 초기화
+		//객체 저장 배열 클래스
+		//BoundCheckIntArray arr(3);
+		//arr[0] = Point(3, 4);
+		//arr[1] = Point(5, 6);
+		//arr[2] = Point(7, 8);
+		//// 임시 객체를 생성해서 배열요소 초기화
 
+		//for (int i = 0; i < arr.GetArrLen(); i++)
+		//	cout << arr[i];
+
+		////객체 주소 값 저장 방식 배열 클래스
+		//BoundCheckPointPtrArray arr(3);
+		//arr[0] = new Point(3, 4);
+		//arr[1] = new Point(5, 6);
+		//arr[2] = new Point(7, 8);
+		////Point 객체 주소값을 저장함
+		//// 객체 주소 값을 저장할 경우, 깊은 복사, 얕은 복사에 관한 문제를 신경쓰지 않아도 됨
+
+	///*for (int i = 0; i < arr.GetArrLen(); i++)
+	//	cout << *(arr[i]);*/
+
+	////문제1. 포인터 출력 오버로딩
 	//for (int i = 0; i < arr.GetArrLen(); i++)
-	//	cout << arr[i];
+	//	cout << arr[i]; //cout.operator<<(new Point(3, 4))
 
-	//객체 주소 값 저장 방식 배열 클래스
-	BoundCheckPointPtrArray arr(3);
-	arr[0] = new Point(3, 4);
-	arr[1] = new Point(5, 6);
-	arr[2] = new Point(7, 8);
-	//Point 객체 주소값을 저장함
-	// 객체 주소 값을 저장할 경우, 깊은 복사, 얕은 복사에 관한 문제를 신경쓰지 않아도 됨
+	//delete arr[0];
+	//delete arr[1];
+	//delete arr[2];
 
-	/*for (int i = 0; i < arr.GetArrLen(); i++)
-		cout << *(arr[i]);*/
+	//문제2. 2차원 배열 클래스
+	BoundCheck2DIntArray arr2d(3, 4);
+	for (int n = 0; n < arr2d.GetHArrLen(); n++) {
+		for (int m = 0; m < arr2d.GetRArrLen(); m++)
+			arr2d[n][m] = n + m;
+	}
 
-	//문제1. 포인터 출력 오버로딩
-	for (int i = 0; i < arr.GetArrLen(); i++)
-		cout << arr[i]; //cout.operator<<(new Point(3, 4))
-
-	delete arr[0];
-	delete arr[1];
-	delete arr[2];
+	for (int n = 0; n < arr2d.GetHArrLen(); n++) {
+		for (int m = 0; m < arr2d.GetRArrLen(); m++)
+			cout << arr2d[n][m] << ' '; //-> (arr2d.operator[](n))[m] -> ((return).operator[])(m)
+		cout << endl;
+	}
 
 	return 0;
 }
