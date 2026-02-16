@@ -44,46 +44,43 @@ using namespace std;
 //		cout << ref[idx] << endl; //const 참조자를 이용한 연산이므로, int& operator[](int idx) const 함수 호출
 //}
 
-class Point {
-private:
-	int xpos, ypos;
-public:
-	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
-	friend ostream& operator<<(ostream& os, const Point& pos);
-};
-
-ostream& operator<<(ostream& os, const Point& pos) {
-	//os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
-	os << pos.xpos;
-	return os;
-}
-
-ostream& operator<<(ostream& os, const Point* pos) {
-	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
-	return os;
-}
+//class Point {
+//private:
+//	int xpos, ypos;
+//public:
+//	Point(int x = 0, int y = 0) : xpos(x), ypos(y) {}
+//	friend ostream& operator<<(ostream& os, const Point& pos);
+//};
+//
+//ostream& operator<<(ostream& os, const Point& pos) {
+//	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+//	return os;
+//}
+//
+//ostream& operator<<(ostream& os, const Point* pos) {
+//	os << *pos; // -> ostream& operator<<(ostream& os, const Point& pos) 이거 실행됨(역참조)
+//	return os;
+//}
 
 class BoundCheckIntArray {
 private:
-	Point* arr;
+	int* arr;
 	int arrlen;
 	BoundCheckIntArray(const BoundCheckIntArray& arr) {}
 	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
 public:
 	BoundCheckIntArray(int len) : arrlen(len) {
-		arr = new Point[len]; //Point 객체로 이뤄진 배열 생성
-		// 인자를 받지 않는 void 생성자의 호출을 통해 배열요소를 이루는 객체가 생성되므로
-		// Point(int x=0, int y=0) 이 생성자에 설정된 디폴트 값에 의해 객체의 모든 멤버가 0으로 초기화됨
+		arr = new int[len]; 
 	}
 	//배열 인덱스 연산자
-	Point& operator[](int idx) {
+	int& operator[](int idx) {
 		if (idx < 0 || idx >= arrlen) {
 			cout << "Array index out of bound exception" << endl;
 			exit(1);
 		}
 		return arr[idx];
 	}
-	Point& operator[](int idx) const {
+	int& operator[](int idx) const {
 		if (idx < 0 || idx >= arrlen) {
 			cout << "Array index out of bound exception" << endl;
 			exit(1);
@@ -96,7 +93,7 @@ public:
 	}
 };
 
-typedef Point* POINT_PTR;
+//typedef Point* POINT_PTR;
 //Point 포인터 형을 의미하는 POINT_PTR 정의
 // 저장의 대상, 연산의 주 대상이 포인터인 경우, 별도의 자료형을 정의하는 것이 좋음
 
@@ -131,6 +128,7 @@ typedef Point* POINT_PTR;
 //	}
 //};
 
+typedef BoundCheckIntArray* BoundCheckIntArrayPtr;
 
 //문제2. 2차원 배열 클래스
 class BoundCheck2DIntArray {
@@ -140,7 +138,7 @@ private:
 public:
 	// 생성자: 행(Row) 개수만큼 1차원 배열 객체를 쫘르륵 만듭니다.
 	BoundCheck2DIntArray(int r, int c) : rowCount(r) {
-		rows = new BoundCheckIntArray *[r]; // 1. 포인터 배열 생성
+		rows = new BoundCheckIntArrayPtr[r]; // 1. 포인터 배열 생성
 		for (int i = 0; i < r; i++) {
 			rows[i] = new BoundCheckIntArray(c); // 2. 각 줄마다 실제 1차원 배열 생성
 		}
@@ -201,6 +199,7 @@ int main(void) {
 
 	//문제2. 2차원 배열 클래스
 	BoundCheck2DIntArray arr2d(3, 4);
+
 	for (int n = 0; n < 3; n++) {
 		for (int m = 0; m < 4; m++)
 			arr2d[n][m] = n + m;
