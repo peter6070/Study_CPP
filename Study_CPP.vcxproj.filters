@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt11_2_Array_Index_Operator.cpp">
+    <ClCompile Include="Cpt11_3_Various_Operator_Overloading.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
