@@ -83,14 +83,17 @@ private:
 	Point* posptr;
 public:
 	SmartPtr(Point * ptr):posptr(ptr){}
+	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
 	Point& operator*() const {
 		return *posptr;
 	}
+	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
 	Point* operator->() const {
 		return posptr;
 	}
 	~SmartPtr() {
 		delete posptr;
+		//SmartPtr이 소멸되지 전에 posptr(Point 객체) 먼저 지운 후 소멸
 	}
 };
 
@@ -115,11 +118,11 @@ int main(void) {
 	SmartPtr sptr1(new Point(1, 2));
 	SmartPtr sptr2(new Point(2, 3));
 	SmartPtr sptr3(new Point(4, 5));
-	cout << *sptr1;
+	cout << *sptr1; //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
 	cout << *sptr2;
 	cout << *sptr3;
 
-	sptr1->SetPos(10, 20);
+	sptr1->SetPos(10, 20); //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
 	sptr2->SetPos(30, 40);
 	sptr3->SetPos(50, 60);
 	cout << *sptr1;
