@@ -43,18 +43,56 @@ using namespace std;
 
 //---------------------------------------------------
 //포인터 연산자 오버로딩
-class Number {
+//class Number {
+//private:
+//	int num;
+//public:
+//	Number(int n):num(n){}
+//	void ShowData() { cout << num << endl; }
+//
+//	Number* operator->() { return this; } //객체 자신의 주소 값을 반환
+//
+//	Number& operator*() { return *this; } //객체 자신의 참조 형태를 반환
+//};
+
+//---------------------------------------------------
+//스마트 포인터
+class Point {
 private:
-	int num;
+	int xpos, ypos;
 public:
-	Number(int n):num(n){}
-	void ShowData() { cout << num << endl; }
-
-	Number* operator->() { return this; } //객체 자신의 주소 값을 반환
-
-	Number& operator*() { return *this; } //객체 자신의 참조 형태를 반환
+	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {
+		cout << "Point Object Construction" << endl;
+	}
+	~Point() {
+		cout << "Point Object Destruction" << endl;
+	}
+	void SetPos(int x, int y) {
+		xpos = x;
+		ypos = y;
+	}
+	friend ostream& operator<<(ostream& os, const Point& pos);
 };
+ostream& operator<<(ostream& os, const Point& pos) {
+	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+	return os;
+}
 
+class SmartPtr {
+private:
+	Point* posptr;
+public:
+	SmartPtr(Point * ptr):posptr(ptr){}
+	Point& operator*() const {
+		return *posptr;
+	}
+	Point* operator->() const {
+		return posptr;
+	}
+	~SmartPtr() {
+		delete posptr;
+	}
+};
 
 int main(void) {
 	//new, delete 연산자 오버로딩(배열 포함)
@@ -65,12 +103,28 @@ int main(void) {
 
 	//---------------------------------------------------
 	//포인터 연산자 오버로딩
-	Number num(20);
-	num.ShowData();
+	//Number num(20);
+	//num.ShowData();
 
-	(*num) = 30; //-> (num.operator*())=30;
-	num->ShowData(); //num.operator->() -> ShowData();
-	(*num).ShowData(); //-> (num.operator*()).ShowData();
+	//(*num) = 30; //-> (num.operator*())=30;
+	//num->ShowData(); //num.operator->() -> ShowData();
+	//(*num).ShowData(); //-> (num.operator*()).ShowData();
+
+	//---------------------------------------------------
+	//스마트 포인터
+	SmartPtr sptr1(new Point(1, 2));
+	SmartPtr sptr2(new Point(2, 3));
+	SmartPtr sptr3(new Point(4, 5));
+	cout << *sptr1;
+	cout << *sptr2;
+	cout << *sptr3;
+
+	sptr1->SetPos(10, 20);
+	sptr2->SetPos(30, 40);
+	sptr3->SetPos(50, 60);
+	cout << *sptr1;
+	cout << *sptr2;
+	cout << *sptr3;
 
 
 	return 0;
