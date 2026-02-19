@@ -129,6 +129,8 @@ int main(void) {
 	cout << *sptr2;
 	cout << *sptr3;
 
+	//Functor: 객체를 함수처럼 사용
+
 
 	return 0;
 }
