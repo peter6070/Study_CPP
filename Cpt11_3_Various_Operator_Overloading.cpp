@@ -99,33 +99,100 @@ using namespace std;
 
 //---------------------------------------------------
 
-class Point {
-private:
-	int xpos, ypos;
-public:
-	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {	}
-	Point operator+(const Point& pos) const {
-		return Point(xpos + pos.xpos, ypos + pos.ypos);
-	}
-	friend ostream& operator<<(ostream& os, const Point& pos);
-};
-ostream& operator<<(ostream& os, const Point& pos) {
-	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
-	return os;
-}
+//() 연산자
+//class Point {
+//private:
+//	int xpos, ypos;
+//public:
+//	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {	}
+//	Point operator+(const Point& pos) const {
+//		return Point(xpos + pos.xpos, ypos + pos.ypos);
+//	}
+//	friend ostream& operator<<(ostream& os, const Point& pos);
+//};
+//ostream& operator<<(ostream& os, const Point& pos) {
+//	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+//	return os;
+//}
+//
+////Functor(함수 오브젝트): 함수처럼 동작하는 클래스
+//class Adder {
+//public:
+//	//() 연산자 오버로딩
+//	int operator()(const int& n1, const int& n2) {
+//		return n1 + n2;
+//	}
+//	double operator()(const double& e1, const double& e2) {
+//		return e1 + e2;
+//	}
+//	Point operator()(const Point& pos1, const Point& pos2) {
+//		return pos1 + pos2;
+//	}
+//};
 
-//Functor(함수 오브젝트): 함수처럼 동작하는 클래스
-class Adder {
+//---------------------------------------------------
+//버블정렬(Functor 사용)
+class SortRule {
 public:
-	//() 연산자 오버로딩
-	int operator()(const int& n1, const int& n2) {
-		return n1 + n2;
+	virtual bool operator()(int num1, int num2) const = 0;
+	// 추상클래스로 정의, operator()함수는 순수가상함수로 정의
+	// 이는 함수 기능을 유도 클래스에서 확정 짓겠다는 의미(지금은 명시만 하겠다는 뜻)
+};
+
+//오름차순
+class AscendingSort : public SortRule {
+public:
+	bool operator()(int n1, int n2) const {
+		if (n1 > n2)
+			return true;
+		else
+			return false;
 	}
-	double operator()(const double& e1, const double& e2) {
-		return e1 + e2;
+};
+
+//내림차순
+class DescendingSort : public SortRule {
+public:
+	bool operator()(int n1, int n2) const {
+		if (n1 < n2)
+			return true;
+		else
+			return false;
 	}
-	Point operator()(const Point& pos1, const Point& pos2) {
-		return pos1 + pos2;
+};
+
+//int형 정수 저장소
+class DataStorage {
+private:
+	int* arr;
+	int idx;
+	const int MAX_LEN;
+public:
+	DataStorage(int arrlen) : idx(0), MAX_LEN(arrlen) {
+		arr = new int[MAX_LEN];
+	}
+	void AddData(int num) {
+		if (MAX_LEN <= idx) {
+			cout << "Full Storage" << endl;
+			return;
+		}
+		arr[idx++] = num;
+	}
+	void ShowAllData() {
+		for (int i = 0; i < idx; i++)
+			cout << arr[i] << ' ';
+		cout << endl;
+	}
+	void SortData(const SortRule& functor) {
+		for (int i = 0; i < (idx - 1); i++) {
+			for (int j = 0; j < (idx - 1) - i; j++) {
+				if (functor(arr[j], arr[j + 1])) {
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
 	}
 };
 
@@ -162,11 +229,28 @@ int main(void) {
 	//cout << *sptr3;
 
 	//---------------------------------------------------
-	//() 연산자
-	Adder adder;
-	cout << adder(1, 3) << endl;
-	cout << adder(1.5, 3.7) << endl;
-	cout << adder(Point(3,4), Point(7,9)) << endl;
+	////() 연산자
+	//Adder adder;
+	//cout << adder(1, 3) << endl; //adder 클래스를 () 연산자 오버로딩을 통해 함수처럼 사용 -> Functor
+	//cout << adder(1.5, 3.7) << endl;
+	//cout << adder(Point(3,4), Point(7,9)) << endl;
 	
+	//---------------------------------------------------
+	//버블정렬(Functor 사용)
+	DataStorage storage(5);
+	storage.AddData(40);
+	storage.AddData(30);
+	storage.AddData(50);
+	storage.AddData(20);
+	storage.AddData(10);
+
+	storage.ShowAllData();
+
+	storage.SortData(AscendingSort());
+	storage.ShowAllData();
+
+	storage.SortData(DescendingSort());
+	storage.ShowAllData();
+
 	return 0;
 }
