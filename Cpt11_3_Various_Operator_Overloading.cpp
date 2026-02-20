@@ -131,69 +131,92 @@ using namespace std;
 //};
 
 //---------------------------------------------------
-//버블정렬(Functor 사용)
-class SortRule {
-public:
-	virtual bool operator()(int num1, int num2) const = 0;
-	// 추상클래스로 정의, operator()함수는 순수가상함수로 정의
-	// 이는 함수 기능을 유도 클래스에서 확정 짓겠다는 의미(지금은 명시만 하겠다는 뜻)
-};
-
-//오름차순
-class AscendingSort : public SortRule {
-public:
-	bool operator()(int n1, int n2) const {
-		if (n1 > n2)
-			return true;
-		else
-			return false;
-	}
-};
-
-//내림차순
-class DescendingSort : public SortRule {
-public:
-	bool operator()(int n1, int n2) const {
-		if (n1 < n2)
-			return true;
-		else
-			return false;
-	}
-};
-
-//int형 정수 저장소
-class DataStorage {
+////버블정렬(Functor 사용)
+//class SortRule {
+//public:
+//	virtual bool operator()(int num1, int num2) const = 0;
+//	// 추상클래스로 정의, operator()함수는 순수가상함수로 정의
+//	// 이는 함수 기능을 유도 클래스에서 확정 짓겠다는 의미(지금은 명시만 하겠다는 뜻)
+//};
+//
+////오름차순
+//class AscendingSort : public SortRule {
+//public:
+//	bool operator()(int n1, int n2) const {
+//		if (n1 > n2)
+//			return true;
+//		else
+//			return false;
+//	}
+//};
+//
+////내림차순
+//class DescendingSort : public SortRule {
+//public:
+//	bool operator()(int n1, int n2) const {
+//		if (n1 < n2)
+//			return true;
+//		else
+//			return false;
+//	}
+//};
+//
+////int형 정수 저장소
+//class DataStorage {
+//private:
+//	int* arr;
+//	int idx;
+//	const int MAX_LEN;
+//public:
+//	DataStorage(int arrlen) : idx(0), MAX_LEN(arrlen) {
+//		arr = new int[MAX_LEN];
+//	}
+//	void AddData(int num) {
+//		if (MAX_LEN <= idx) {
+//			cout << "Full Storage" << endl;
+//			return;
+//		}
+//		arr[idx++] = num;
+//	}
+//	void ShowAllData() {
+//		for (int i = 0; i < idx; i++)
+//			cout << arr[i] << ' ';
+//		cout << endl;
+//	}
+//	//SortRule을 상속하는 AscendingSort, DescendingSort 클래스를 인자로 전달 가능
+//	void SortData(const SortRule& functor) {
+//		for (int i = 0; i < (idx - 1); i++) {
+//			for (int j = 0; j < (idx - 1) - i; j++) {
+//				if (functor(arr[j], arr[j + 1])) {
+//					int temp = arr[j];
+//					arr[j] = arr[j + 1];
+//					arr[j + 1] = temp;
+//				}
+//			}
+//		}
+//	}
+//};
+//---------------------------------------------------
+//형 변환 연산자
+class Number {
 private:
-	int* arr;
-	int idx;
-	const int MAX_LEN;
+	int num;
 public:
-	DataStorage(int arrlen) : idx(0), MAX_LEN(arrlen) {
-		arr = new int[MAX_LEN];
+	//b형 데이터를 인자로 전달받는 a형 클래스의 생성자 호출을 통해 a형 임시객체를 생성
+	Number(int n = 0) :num(n) {
+		cout << "Number(int n=0)" << endl;
 	}
-	void AddData(int num) {
-		if (MAX_LEN <= idx) {
-			cout << "Full Storage" << endl;
-			return;
-		}
-		arr[idx++] = num;
+	//굳이 오버로딩 할 필요 없지만 대입 연산자 호출 확인을 위함
+	Number& operator=(const Number& ref) {
+		cout << "operator=()" << endl;
+		num = ref.num;
+		return *this;
 	}
-	void ShowAllData() {
-		for (int i = 0; i < idx; i++)
-			cout << arr[i] << ' ';
-		cout << endl;
+	//형 변환 연산자 오버로딩(Object to int)
+	operator int() {
+		return num;
 	}
-	void SortData(const SortRule& functor) {
-		for (int i = 0; i < (idx - 1); i++) {
-			for (int j = 0; j < (idx - 1) - i; j++) {
-				if (functor(arr[j], arr[j + 1])) {
-					int temp = arr[j];
-					arr[j] = arr[j + 1];
-					arr[j + 1] = temp;
-				}
-			}
-		}
-	}
+	void ShowNumber() { cout << num << endl; }
 };
 
 int main(void) {
@@ -236,21 +259,34 @@ int main(void) {
 	//cout << adder(Point(3,4), Point(7,9)) << endl;
 	
 	//---------------------------------------------------
-	//버블정렬(Functor 사용)
-	DataStorage storage(5);
-	storage.AddData(40);
-	storage.AddData(30);
-	storage.AddData(50);
-	storage.AddData(20);
-	storage.AddData(10);
+	////버블정렬(Functor 사용)
+	//DataStorage storage(5);
+	//storage.AddData(40);
+	//storage.AddData(30);
+	//storage.AddData(50);
+	//storage.AddData(20);
+	//storage.AddData(10);
 
-	storage.ShowAllData();
+	//storage.ShowAllData();
 
-	storage.SortData(AscendingSort());
-	storage.ShowAllData();
+	//storage.SortData(AscendingSort());
+	//storage.ShowAllData();
 
-	storage.SortData(DescendingSort());
-	storage.ShowAllData();
+	//storage.SortData(DescendingSort());
+	//storage.ShowAllData();
+
+	//---------------------------------------------------
+	//형 변환 연산자
+	//Number num;
+	//num = 30; 
+	//// -> num=Number(30) 1. 임시 객체 생성
+	//// -> num.operator=(Number(30)) 2. 임시객체 대상으로 하는 대입 연산자 호출
+	//num.ShowNumber();
+
+	Number n1; 
+	n1 = 30;
+	Number n2 = n1 + 20; //객체와 정수 간 덧셈. 이때 객체(n1)가 int형으로 변환됨
+	n2.ShowNumber();
 
 	return 0;
 }
