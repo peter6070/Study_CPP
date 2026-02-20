@@ -56,20 +56,56 @@ using namespace std;
 //};
 
 //---------------------------------------------------
-//스마트 포인터
+////스마트 포인터
+//class Point {
+//private:
+//	int xpos, ypos;
+//public:
+//	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {
+//		cout << "Point Object Construction" << endl;
+//	}
+//	~Point() {
+//		cout << "Point Object Destruction" << endl;
+//	}
+//	void SetPos(int x, int y) {
+//		xpos = x;
+//		ypos = y;
+//	}
+//	friend ostream& operator<<(ostream& os, const Point& pos);
+//};
+//ostream& operator<<(ostream& os, const Point& pos) {
+//	os << '[' << pos.xpos << ", " << pos.ypos << ']' << endl;
+//	return os;
+//}
+//
+//class SmartPtr {
+//private:
+//	Point* posptr;
+//public:
+//	SmartPtr(Point * ptr):posptr(ptr){}
+//	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
+//	Point& operator*() const {
+//		return *posptr;
+//	}
+//	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
+//	Point* operator->() const {
+//		return posptr;
+//	}
+//	~SmartPtr() {
+//		delete posptr;
+//		//SmartPtr이 소멸되지 전에 posptr(Point 객체) 먼저 지운 후 소멸
+//	}
+//};
+
+//---------------------------------------------------
+
 class Point {
 private:
 	int xpos, ypos;
 public:
-	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {
-		cout << "Point Object Construction" << endl;
-	}
-	~Point() {
-		cout << "Point Object Destruction" << endl;
-	}
-	void SetPos(int x, int y) {
-		xpos = x;
-		ypos = y;
+	Point(int x = 0, int y = 0) :xpos(x), ypos(y) {	}
+	Point operator+(const Point& pos) const {
+		return Point(xpos + pos.xpos, ypos + pos.ypos);
 	}
 	friend ostream& operator<<(ostream& os, const Point& pos);
 };
@@ -78,22 +114,18 @@ ostream& operator<<(ostream& os, const Point& pos) {
 	return os;
 }
 
-class SmartPtr {
-private:
-	Point* posptr;
+//Functor(함수 오브젝트): 함수처럼 동작하는 클래스
+class Adder {
 public:
-	SmartPtr(Point * ptr):posptr(ptr){}
-	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
-	Point& operator*() const {
-		return *posptr;
+	//() 연산자 오버로딩
+	int operator()(const int& n1, const int& n2) {
+		return n1 + n2;
 	}
-	//스마트포인터의 기본이 되는 함수(포인터처럼 동작하기 위함)
-	Point* operator->() const {
-		return posptr;
+	double operator()(const double& e1, const double& e2) {
+		return e1 + e2;
 	}
-	~SmartPtr() {
-		delete posptr;
-		//SmartPtr이 소멸되지 전에 posptr(Point 객체) 먼저 지운 후 소멸
+	Point operator()(const Point& pos1, const Point& pos2) {
+		return pos1 + pos2;
 	}
 };
 
@@ -114,23 +146,27 @@ int main(void) {
 	//(*num).ShowData(); //-> (num.operator*()).ShowData();
 
 	//---------------------------------------------------
-	//스마트 포인터
-	SmartPtr sptr1(new Point(1, 2));
-	SmartPtr sptr2(new Point(2, 3));
-	SmartPtr sptr3(new Point(4, 5));
-	cout << *sptr1; //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
-	cout << *sptr2;
-	cout << *sptr3;
+	////스마트 포인터
+	//SmartPtr sptr1(new Point(1, 2));
+	//SmartPtr sptr2(new Point(2, 3));
+	//SmartPtr sptr3(new Point(4, 5));
+	//cout << *sptr1; //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
+	//cout << *sptr2;
+	//cout << *sptr3;
 
-	sptr1->SetPos(10, 20); //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
-	sptr2->SetPos(30, 40);
-	sptr3->SetPos(50, 60);
-	cout << *sptr1;
-	cout << *sptr2;
-	cout << *sptr3;
+	//sptr1->SetPos(10, 20); //연산자 오버로딩을 하였으므로 포인터처럼 사용하는 것처럼 보임
+	//sptr2->SetPos(30, 40);
+	//sptr3->SetPos(50, 60);
+	//cout << *sptr1;
+	//cout << *sptr2;
+	//cout << *sptr3;
 
-	//Functor: 객체를 함수처럼 사용
-
-
+	//---------------------------------------------------
+	//() 연산자
+	Adder adder;
+	cout << adder(1, 3) << endl;
+	cout << adder(1.5, 3.7) << endl;
+	cout << adder(Point(3,4), Point(7,9)) << endl;
+	
 	return 0;
 }
