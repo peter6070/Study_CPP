@@ -70,7 +70,7 @@ private:
 	BoundCheckIntArray& operator=(const BoundCheckIntArray& arr) {}
 public:
 	BoundCheckIntArray(int len) : arrlen(len) {
-		arr = new int[len]; 
+		arr = new int[len];
 	}
 	//배열 인덱스 연산자
 	int& operator[](int idx) {
@@ -165,26 +165,26 @@ int main(void) {
 	//	arr[i] = (i + 1) * 11; //const로 선언되지 않은 arr을 이용한 연산이므로 int& operator[](int idx) 함수 호출
 	/*for(int i=0;i<6;i++)
 		cout<<arr[i]<<endl;*/
-		//BoundCheckIntArray cpy = arr; //대입연산자를 private으로 선언하여 대입 불가
-		//ShowAllData(arr);
+	//BoundCheckIntArray cpy = arr; //대입연산자를 private으로 선언하여 대입 불가
+	//ShowAllData(arr);
 
-		//객체 저장 배열 클래스
-		//BoundCheckIntArray arr(3);
-		//arr[0] = Point(3, 4);
-		//arr[1] = Point(5, 6);
-		//arr[2] = Point(7, 8);
-		//// 임시 객체를 생성해서 배열요소 초기화
+	//객체 저장 배열 클래스
+	//BoundCheckIntArray arr(3);
+	//arr[0] = Point(3, 4);
+	//arr[1] = Point(5, 6);
+	//arr[2] = Point(7, 8);
+	//// 임시 객체를 생성해서 배열요소 초기화
 
-		//for (int i = 0; i < arr.GetArrLen(); i++)
-		//	cout << arr[i];
+	//for (int i = 0; i < arr.GetArrLen(); i++)
+	//	cout << arr[i];
 
-		////객체 주소 값 저장 방식 배열 클래스
-		//BoundCheckPointPtrArray arr(3);
-		//arr[0] = new Point(3, 4);
-		//arr[1] = new Point(5, 6);
-		//arr[2] = new Point(7, 8);
-		////Point 객체 주소값을 저장함
-		//// 객체 주소 값을 저장할 경우, 깊은 복사, 얕은 복사에 관한 문제를 신경쓰지 않아도 됨
+	////객체 주소 값 저장 방식 배열 클래스
+	//BoundCheckPointPtrArray arr(3);
+	//arr[0] = new Point(3, 4);
+	//arr[1] = new Point(5, 6);
+	//arr[2] = new Point(7, 8);
+	////Point 객체 주소값을 저장함
+	//// 객체 주소 값을 저장할 경우, 깊은 복사, 얕은 복사에 관한 문제를 신경쓰지 않아도 됨
 
 	///*for (int i = 0; i < arr.GetArrLen(); i++)
 	//	cout << *(arr[i]);*/
