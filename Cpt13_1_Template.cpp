@@ -26,25 +26,35 @@ using namespace std;
 //}
 //-----------------------------------------------------
 //문제1. 저장된 값을 교환하는 SwapData 함수 템플릿
+//template <class T>
+//void SwapData(T& n1, T& n2) {
+//	T temp = n1;
+//	n1 = n2;
+//	n2 = temp;
+//}
+//
+//class Point {
+//private:
+//	int xpos, ypos;
+//public:
+//	Point(int x=0, int y=0):xpos(x), ypos(y){}
+//	void ShowPosition() const {
+//		cout << xpos << ", " << ypos << endl;
+//	}
+//	void SwapXY() {
+//		SwapData(xpos, ypos);
+//	}
+//};
+//-----------------------------------------------------
+//문제2. int형 배열 값 덧셈 함수 템플릿 정의
 template <class T>
-void SwapData(T& n1, T& n2) {
-	T temp = n1;
-	n1 = n2;
-	n2 = temp;
-}
 
-class Point {
-private:
-	int xpos, ypos;
-public:
-	Point(int x=0, int y=0):xpos(x), ypos(y){}
-	void ShowPosition() const {
-		cout << xpos << ", " << ypos << endl;
-	}
-	void SwapXY() {
-		SwapData(xpos, ypos);
-	}
-};
+T SumArray(T arr[], int len) {
+	T sum = 0;
+	for (int i = 0; i < len; i++)
+		sum += arr[i];
+	return sum;
+}
 
 
 int main(void) {
@@ -62,9 +72,15 @@ int main(void) {
 	ShowData<short, double>(70.4);*/
 	//-----------------------------------------------------
 	//문제1. 저장된 값을 교환하는 SwapData 함수 템플릿
-	Point pos(1, 2);
-	pos.SwapXY();
-	pos.ShowPosition();
+	//Point pos(1, 2);
+	//pos.SwapXY();
+	//pos.ShowPosition();
+	//-----------------------------------------------------
+	//문제2. int형 배열 값 덧셈 함수 템플릿 정의
+	double arr[] = { 1.3, 4.3, 5.5, 2.5 };
+	int len = sizeof(arr)/sizeof(double);
+	double result = SumArray<double>(arr, len);
+	cout << result << endl;
 
 	return 0;
 }
