@@ -18,7 +18,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cpt12_1_2_CPP_Standard_String.cpp">
+    <ClCompile Include="Cpt13_1_Template.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
