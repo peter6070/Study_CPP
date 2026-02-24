@@ -123,12 +123,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cpt14_1_Point_Array_Class_Template.cpp" />
+    <ClCompile Include="Cpt14_2_Class_Template_Specialization.cpp" />
     <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Cpt14_1_ArrayTemplate.h" />
-    <ClInclude Include="Cpt14_1_PointTemplate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
